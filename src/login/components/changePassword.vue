@@ -33,38 +33,30 @@ const rules = reactive({
 
 function postChangePwd() {
   http
-    .post(
-      '/ChangePassword/',
-      {
-        password: formData.value.origin_pwd,
-        new_pwd: formData.value.new_pwd,
-        again_pwd: formData.value.again_pwd,
-        first_login: true
-      },
-      {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('YoutholAccessToken')
-        }
-      }
-    )
+    .post('/account/change/', {
+      password: formData.value.origin_pwd,
+      new_pwd: formData.value.new_pwd,
+      again_pwd: formData.value.again_pwd,
+      first_login: true
+    })
     .then((res) => {
       let data = res.data
-
-      if (data.message == '两次密码不一致') {
-        errorAlert('两次输入的密码不一致，请重新输入')
-      } else if (data.message == '修改成功') {
+      if (data.message == '修改成功') {
         is_changed = true
         successAlert('修改成功')
         //跳转到首页
         window.location.href = '/youthol/'
-      } else if (data.message == '原密码错误') {
-        errorAlert('原密码错误')
-      } else {
-        errorAlert('修改失败')
       }
     })
     .catch(function (error) {
-      console.log(error)
+      let data = error.response.data
+      if (data.message == '两次密码不一致') {
+        errorAlert('两次输入的密码不一致，请重新输入')
+      } else if (data.message == '原密码错误') {
+        errorAlert('原密码错误')
+      } else {
+        errorAlert('请求错误')
+      }
     })
 }
 

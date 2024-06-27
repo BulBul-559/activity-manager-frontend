@@ -31,8 +31,8 @@ const rules = reactive({
 })
 
 function signIn() {
-  console.log(formData.value.username)
-  console.log(formData.value.password)
+  // console.log(formData.value.username)
+  // console.log(formData.value.password)
 
   if (formData.value.username == '') {
     errorAlert('请输入账号')
@@ -43,32 +43,37 @@ function signIn() {
     return
   }
   http
-    .post('/SignIn/', {
+    .post('/account/login/', {
       username: formData.value.username,
-      password: formData.value.password,
+      password: formData.value.password
     })
     .then((res) => {
       let data = res.data
       let token = data.access_token
 
-      if (data.SignState == '初次登录') {
+      if (data.sign_state == '初次登录') {
         errorAlert('首次登录，请修改密码')
         localStorage.setItem('YoutholAccessToken', token)
         emit('isLogin', false)
-      } else if (data.SignState == '登录成功') {
+      } else if (data.sign_state == '登录成功') {
         successAlert('登录成功')
         //存储 token
         localStorage.setItem('YoutholAccessToken', token)
         //跳转到首页
         window.location.href = '/youthol/'
-      } else if (data.SignState == '账号或密码错误') {
+      } else if (data.sign_state == '账号或密码错误') {
         errorAlert('账号或密码错误')
       } else {
         errorAlert('未知错误')
       }
     })
     .catch(function (error) {
-      console.log(error)
+      let data = error.response.data
+      if (data.sign_state == '账号或密码错误') {
+        errorAlert('账号或密码错误')
+      } else {
+        errorAlert('请求错误')
+      }
     })
 }
 </script>
