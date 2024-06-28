@@ -32,6 +32,13 @@ const router = createRouter({
       }
     },
     {
+      path: '/SelfManage',
+      name: 'self-manage',
+      components: {
+        MainComponment: () => import('managePage/selfManage.vue')
+      }
+    },
+    {
       path: '/MachineBorrow',
       name: 'machine-borrow',
       components: {

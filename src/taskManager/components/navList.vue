@@ -42,6 +42,9 @@ function close() {
     <router-link to="/ExecuteActivity">
       <div class="duty nav-item" @click="close">活动处理</div>
     </router-link>
+    <router-link to="/SelfManage">
+      <div class="duty nav-item" @click="close">个人中心</div>
+    </router-link>
 
     <div class="logout nav-item" @click="Logout">退出登录</div>
   </el-scrollbar>

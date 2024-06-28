@@ -116,6 +116,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+  height: 120px;
 }
 .user-info-detail {
   padding: 10px;
