@@ -31,9 +31,6 @@ const rules = reactive({
 })
 
 function signIn() {
-  // console.log(formData.value.username)
-  // console.log(formData.value.password)
-
   if (formData.value.username == '') {
     errorAlert('请输入账号')
     return

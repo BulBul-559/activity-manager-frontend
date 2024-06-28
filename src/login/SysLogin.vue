@@ -14,7 +14,7 @@ let box_state = ref(true)
 
 const verifySignIn = new Promise((resolve, reject) => {
   http
-    .post('/GetUserInfo/', {})
+    .get('/account/info/', {})
     .then((res) => {
       // 在这里设置 Pinia状态？
       console.log(res)

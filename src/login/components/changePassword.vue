@@ -33,18 +33,28 @@ const rules = reactive({
 
 function postChangePwd() {
   http
-    .post('/account/change/', {
-      password: formData.value.origin_pwd,
-      new_pwd: formData.value.new_pwd,
-      again_pwd: formData.value.again_pwd,
-      first_login: true
-    })
+    .post(
+      '/account/change/',
+      {
+        password: formData.value.origin_pwd,
+        new_pwd: formData.value.new_pwd,
+        again_pwd: formData.value.again_pwd,
+        first_login: true
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('YoutholAccessToken')
+        }
+      }
+    )
     .then((res) => {
       let data = res.data
       if (data.message == '修改成功') {
         is_changed = true
         successAlert('修改成功')
         //跳转到首页
+        let token = data.access_token
+        localStorage.setItem('YoutholAccessToken', token)
         window.location.href = '/youthol/'
       }
     })

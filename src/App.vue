@@ -21,15 +21,7 @@ let store = useUserStore()
 
 function verifySignIn() {
   http
-    .post(
-      '/GetUserInfo/',
-      {},
-      {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('YoutholAccessToken')
-        }
-      }
-    )
+    .get('/account/info/')
     .then((res) => {
       // 在这里设置 Pinia状态？
       store = useUserStore()
