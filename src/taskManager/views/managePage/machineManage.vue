@@ -1,44 +1,34 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { http } from 'assets/js/http.js' //配置了基本的设置
 import MachineCard from '../../components/MachineCard.vue'
 
-let mess = ref([
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 1,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 2,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 3,
-    name: '小美的 a73',
-    state: '借用中: 小美',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 4,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 4,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  }
-])
+let mess = ref([])
+
+function getMachineInfo() {
+  http
+    .get('/machine/')
+    .then((res) => {
+      console.log(res)
+      for (let i = 0; i < res.data.length; i++) {
+        let item = {
+          url: res.data[i].profile_url,
+          name: res.data[i].name,
+          content: res.data[i].description,
+          state: 'Free！',
+          type: '相机'
+        }
+        mess.value.push(item)
+      }
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
+}
+
+onMounted(() => {
+  getMachineInfo()
+})
 </script>
 <template>
   <div class="main-layout">
