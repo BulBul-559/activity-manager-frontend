@@ -6,11 +6,12 @@ import { createPinia } from 'pinia'
 import manager from 'manager/taskManager.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import router from 'manager/router'
 
 const pinia = createPinia()
 const app = createApp(manager)
 
 app.use(pinia)
 app.use(ElementPlus)
-// app.use(router)
+app.use(router)
 app.mount('#task-manager-root')
