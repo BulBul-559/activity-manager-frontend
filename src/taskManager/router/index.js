@@ -7,49 +7,49 @@ const router = createRouter({
       path: '/',
       name: 'home',
       components: {
-        MainComponment: () => import('managePage/activityManage.vue')
+        MainComponment: () => import('managePage/MachineManage.vue')
       }
     },
     {
       path: '/ActivityManage',
       name: 'activity-manage',
       components: {
-        MainComponment: () => import('managePage/activityManage.vue')
+        MainComponment: () => import('managePage/ActivityManage.vue')
       }
     },
     {
       path: '/MachineManage',
       name: 'machine-manage',
       components: {
-        MainComponment: () => import('managePage/machineManage.vue')
+        MainComponment: () => import('managePage/MachineManage.vue')
       }
     },
     {
       path: '/MemberManage',
       name: 'member-manage',
       components: {
-        MainComponment: () => import('managePage/memberManage.vue')
+        MainComponment: () => import('managePage/MemberManage.vue')
       }
     },
     {
       path: '/SelfManage',
       name: 'self-manage',
       components: {
-        MainComponment: () => import('managePage/selfManage.vue')
+        MainComponment: () => import('managePage/SelfManage.vue')
       }
     },
     {
       path: '/MachineBorrow',
       name: 'machine-borrow',
       components: {
-        MainComponment: () => import('actionPage/machineBorrow.vue')
+        MainComponment: () => import('actionPage/MachineBorrow.vue')
       }
     },
     {
       path: '/ExecuteActivity',
       name: 'execute-activity',
       components: {
-        MainComponment: () => import('actionPage/executeActivity.vue')
+        MainComponment: () => import('actionPage/ExecuteActivity.vue')
       }
     }
   ]

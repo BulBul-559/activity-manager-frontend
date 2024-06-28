@@ -1,50 +1,26 @@
 <script setup>
 import { ref } from 'vue'
-import MachineCard from '../../components/MachineCard.vue'
+const props = defineProps(['card_info'])
 
-let mess = ref([
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 1,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 2,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 3,
-    name: '小美的 a73',
-    state: '借用中: 小美',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 4,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  },
-  {
-    url: '/youthol/src/assets/temp/a73.png',
-    content: 4,
-    name: '小美的 a73',
-    state: '空闲中',
-    type: '相机'
-  }
-])
+let item = ref(props.card_info)
+
 </script>
 <template>
-  <div class="main-layout">
-    <div class="add-machine"></div>
-    <div class="machine-list">
-      <MachineCard v-for="item in mess" :card_info="item" :key="item"></MachineCard>
+  <div class="machine">
+    <img :src="item.url" alt="" class="machine-img" />
+    <div class="machine-detail">
+      <div class="machine-name">
+        {{ item.name }}
+      </div>
+      <div class="divider"></div>
+      <div class="machine-state">
+        <span class="single-state machine-type">
+          {{ item.type }}
+        </span>
+        <span class="single-state borrow-state">
+          {{ item.state }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -72,11 +48,6 @@ let mess = ref([
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-.machine-list {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
 }
 .borrow-state {
   color: white;
@@ -119,9 +90,6 @@ let mess = ref([
   height: 110px;
 }
 @media only screen and (min-width: 768px) {
-  .machine-list {
-    justify-content: flex-start;
-  }
   .machine-name {
     padding: 15px 0 0 0;
     font-size: 30px;
@@ -129,9 +97,6 @@ let mess = ref([
   }
 }
 @media only screen and (max-width: 768px) {
-  .machine-list {
-    justify-content: center;
-  }
   .machine-name {
     padding: 15px 0 0 0;
     font-size: 26px;
