@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <div>helloword</div>
+  <div>activity manage</div>
 </template>
 
 <style scoped></style>

@@ -83,8 +83,6 @@ onMounted(() => {
             </div>
           </div>
           <navList> </navList>
-
-          <!-- <img src="../assets/img/youthol.png" alt="" class="youthol-logo" /> -->
         </el-aside>
         <el-main>
           <el-scrollbar>
@@ -92,13 +90,8 @@ onMounted(() => {
           </el-scrollbar>
         </el-main>
       </el-container>
-
-      <!-- <el-footer class="state-bar">
-        <div class="all-duty">累计值班：{{ stateBar.allDuty }}小时</div>
-        <div class="duty-state">{{ userStore.duty_state }}</div>
-        <div class="now-brorrow">正在借用设备：{{ stateBar.nowBrorrow }}</div>
-      </el-footer> -->
     </el-container>
+
     <el-drawer
       :size="_size"
       v-model="drawer"

@@ -25,7 +25,9 @@ export default defineConfig({
       store: fileURLToPath(new URL('./src/store', import.meta.url)),
       router: fileURLToPath(new URL('./src/router', import.meta.url)),
       components: fileURLToPath(new URL('./src/components', import.meta.url)),
-      manager: fileURLToPath(new URL('./src/taskManager', import.meta.url))
+      manager: fileURLToPath(new URL('./src/taskManager', import.meta.url)),
+      managePage: fileURLToPath(new URL('./src/taskManager/views/managePage', import.meta.url)),
+      actionPage: fileURLToPath(new URL('./src/taskManager/views/actionPage', import.meta.url))
     }
   }
 })

@@ -7,70 +7,42 @@ const router = createRouter({
       path: '/',
       name: 'home',
       components: {
-        MainComponment: () => import('../components/temp.vue')
+        MainComponment: () => import('managePage/activityManage.vue')
       }
     },
-    // {
-    //   path: '/duty',
-    //   name: 'oa-duty',
-    //   components: {
-    //     MainComponment: () => import('../views/MemberDuty.vue')
-    //   }
-    // },
-    // {
-    //   path: '/borrow',
-    //   name: 'oa-borrow',
-    //   components: {
-    //     MainComponment: () => import('../views/MachineBorrow.vue')
-    //   }
-    // },
-    // {
-    //   path: '/study',
-    //   name: 'oa-home',
-    //   components: {
-    //     MainComponment: () => import('../views/StudyPlan.vue')
-    //   }
-    // },
-    // {
-    //   path: '/room',
-    //   name: 'oa-room',
-    //   components: {
-    //     MainComponment: () => import('../views/RoomPlan.vue')
-    //   }
-    // },
-    // {
-    //   path: '/DutyRecord',
-    //   name: 'oa-duty-record',
-    //   components: {
-    //     MainComponment: () => import('../views/DutyRecord.vue')
-    //   }
-    // },
-    // {
-    //   path: '/MemberManage',
-    //   name: 'oa-member-manage',
-    //   components: {
-    //     MainComponment: () => import('../views/MemberManage.vue')
-    //   }
-    // },
-    // {
-    //   path: '/MachineManage',
-    //   name: 'oa-machine-manage',
-    //   components: {
-    //     MainComponment: () => import('../views/MachineManage.vue')
-    //   }
-    // },
-    // {
-    //   path: '/RoomManage',
-    //   name: 'oa-room-manage',
-    //   components: {
-    //     MainComponment: () => import('../views/RoomManage.vue')
-    //   }
-    // },
     {
-      path: '/test',
-      name: 'oa-test',
+      path: '/ActivityManage',
+      name: 'activity-manage',
       components: {
-        MainComponment: () => import('../components/temp.vue')
+        MainComponment: () => import('managePage/activityManage.vue')
+      }
+    },
+    {
+      path: '/MachineManage',
+      name: 'machine-manage',
+      components: {
+        MainComponment: () => import('managePage/machineManage.vue')
+      }
+    },
+    {
+      path: '/MemberManage',
+      name: 'member-manage',
+      components: {
+        MainComponment: () => import('managePage/memberManage.vue')
+      }
+    },
+    {
+      path: '/MachineBorrow',
+      name: 'machine-borrow',
+      components: {
+        MainComponment: () => import('actionPage/machineBorrow.vue')
+      }
+    },
+    {
+      path: '/ExecuteActivity',
+      name: 'execute-activity',
+      components: {
+        MainComponment: () => import('actionPage/executeActivity.vue')
       }
     }
   ]
