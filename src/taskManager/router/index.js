@@ -11,45 +11,52 @@ const router = createRouter({
       }
     },
     {
-      path: '/ActivityManage',
+      path: '/activity-manage',
       name: 'activity-manage',
       components: {
         MainComponment: () => import('managePage/ActivityManage.vue')
       }
     },
     {
-      path: '/MachineManage',
+      path: '/machine-manage',
       name: 'machine-manage',
       components: {
         MainComponment: () => import('managePage/MachineManage.vue')
       }
     },
     {
-      path: '/MemberManage',
+      path: '/member-manage',
       name: 'member-manage',
       components: {
         MainComponment: () => import('managePage/MemberManage.vue')
       }
     },
     {
-      path: '/SelfManage',
+      path: '/self-manage',
       name: 'self-manage',
       components: {
         MainComponment: () => import('managePage/SelfManage.vue')
       }
     },
     {
-      path: '/MachineBorrow',
+      path: '/machine-borrow',
       name: 'machine-borrow',
       components: {
         MainComponment: () => import('actionPage/MachineBorrow.vue')
       }
     },
     {
-      path: '/ExecuteActivity',
+      path: '/execute-activity',
       name: 'execute-activity',
       components: {
         MainComponment: () => import('actionPage/ExecuteActivity.vue')
+      }
+    },
+    {
+      path: '/single-machine/:machineId',
+      name: 'single-machine',
+      components: {
+        MainComponment: () => import('detailPage/SingleMachine.vue')
       }
     }
   ]

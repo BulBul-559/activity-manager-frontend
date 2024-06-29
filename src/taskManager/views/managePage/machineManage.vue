@@ -2,12 +2,14 @@
 import { ref, reactive, onMounted } from 'vue'
 import { http } from 'assets/js/http.js' //配置了基本的设置
 import { errorAlert } from 'assets/js/message.js'
-import MachineCard from '../../components/MachineCard.vue'
-import AddNewMachine from '../../components/machine/AddNewMachine.vue'
+import MachineCard from 'manager/components/MachineCard.vue'
+import AddNewMachine from 'manager/components/machine/AddNewMachine.vue'
+import { useUserStore } from 'store/store.js'
 
 let drawer = ref(false)
 let _size = ref('50%')
 let machine_info = reactive([])
+let userStore = useUserStore()
 
 function getMachineInfo() {
   http
@@ -51,7 +53,7 @@ onMounted(() => {
 </script>
 <template>
   <div class="main-layout">
-    <div class="option">
+    <div class="option" v-if="userStore.identity == '管理员'">
       <div class="add-btn" @click="displayDrawer(true)">添加新设备</div>
     </div>
     <div class="machine-list">
@@ -59,6 +61,7 @@ onMounted(() => {
     </div>
   </div>
   <AddNewMachine
+    v-if="userStore.identity == '管理员'"
     :drawer="drawer"
     @display-drawer="displayDrawer"
     @get-info="getMachineInfo"

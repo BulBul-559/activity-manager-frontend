@@ -20,29 +20,29 @@ function close() {
       <div class="home nav-item">首页</div>
     </router-link> -->
 
-    <router-link to="/MemberManage" v-if="userStore.identity == '管理员'">
+    <router-link to="/member-manage" v-if="userStore.identity == '管理员'">
       <div class="duty nav-item" @click="close">成员管理</div>
     </router-link>
 
-    <router-link to="/MachineManage" v-if="userStore.identity == '管理员'">
+    <router-link to="/machine-manage" v-if="userStore.identity == '管理员'">
       <div class="duty nav-item" @click="close">设备管理</div>
     </router-link>
 
     <router-link
-      to="/ActivityManage"
+      to="/activity-manage"
       v-if="userStore.position == '负责人' || userStore.identity == '管理员'"
     >
       <div class="duty nav-item" @click="close">活动管理</div>
     </router-link>
 
-    <router-link to="/MachineBorrow">
+    <router-link to="/machine-borrow">
       <div class="duty nav-item" @click="close">设备借用</div>
     </router-link>
 
-    <router-link to="/ExecuteActivity">
+    <router-link to="/execute-activity">
       <div class="duty nav-item" @click="close">活动处理</div>
     </router-link>
-    <router-link to="/SelfManage">
+    <router-link to="/self-manage">
       <div class="duty nav-item" @click="close">个人中心</div>
     </router-link>
 

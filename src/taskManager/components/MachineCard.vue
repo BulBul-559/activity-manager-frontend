@@ -3,10 +3,9 @@ import { ref } from 'vue'
 const props = defineProps(['card_info'])
 
 let item = ref(props.card_info)
-
 </script>
 <template>
-  <div class="machine">
+  <router-link class="machine" :to="'/single-machine/' + item.id">
     <img :src="item.url" alt="" class="machine-img" />
     <div class="machine-detail">
       <div class="machine-name">
@@ -25,7 +24,7 @@ let item = ref(props.card_info)
         </span>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <style scoped>
@@ -102,6 +101,7 @@ let item = ref(props.card_info)
   transition: bottom 1s;
 }
 .machine-name {
+  color: black;
   padding: 15px 0 0 0;
   font-size: 30px;
   margin: 0 0 5px;

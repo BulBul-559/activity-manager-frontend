@@ -69,6 +69,7 @@ const verifyProfileType = (rule, value, callback) => {
 
 const rules = reactive({
   name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
+  type: [{ required: true, message: '请选择设备类型', trigger: 'blur' }],
   model: [{ required: true, message: '请输入设备型号', trigger: 'blur' }],
   purchase_date: [{ required: true, message: '请选择购买时间', trigger: 'blur' }],
   description: [{ required: true, message: '请输入设备描述', trigger: 'blur' }],

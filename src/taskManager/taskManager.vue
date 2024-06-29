@@ -5,7 +5,7 @@ import { http } from 'assets/js/http.js' //配置了基本的设置
 import { less768 } from 'assets/js/screen.js' //配置了基本的设置
 import { useUserStore } from 'store/store.js'
 // import { errorAlert } from 'assets/js/message.js'
-import navList from './components/navList.vue'
+import NavList from './components/NavList.vue'
 
 let userStore = useUserStore()
 
@@ -82,7 +82,7 @@ onMounted(() => {
               <div class="department">{{ userStore.department }}</div>
             </div>
           </div>
-          <navList> </navList>
+          <NavList> </NavList>
         </el-aside>
         <el-main>
           <el-scrollbar>
