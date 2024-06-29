@@ -3,7 +3,7 @@
 import { onMounted } from 'vue'
 import { useUserStore } from './store/store.js'
 import YoutholTitle from './components/YoutholTitle.vue'
-import { http } from './assets/js/http.js' //配置了基本的设置
+import { http } from './utils/http.js' //配置了基本的设置
 
 function toLogin() {
   window.location.href = '/youthol/login/'

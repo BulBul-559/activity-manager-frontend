@@ -66,7 +66,7 @@ let item = ref(props.card_info)
 }
 .machine {
   margin: 20px;
-  border-radius: 40px;
+  border-radius: 30px;
   overflow: hidden;
   border: solid 1px rgba(128, 128, 128, 0.329);
   width: 250px;
@@ -76,8 +76,8 @@ let item = ref(props.card_info)
     box-shadow 1s;
 }
 .machine-img {
+  object-fit: cover;
   transition: transform 1s;
-  border-radius: 40px;
   width: 250px;
   height: 250px;
 }

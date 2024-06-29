@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { http } from 'assets/js/http.js' //配置了基本的设置
-import { errorAlert } from 'assets/js/message.js'
+import { http } from 'utils/http' //配置了基本的设置
+import { errorAlert } from 'utils/message'
 import MachineCard from 'manager/components/MachineCard.vue'
 import AddNewMachine from 'manager/components/machine/AddNewMachine.vue'
 import { useUserStore } from 'store/store.js'

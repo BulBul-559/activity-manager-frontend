@@ -5,7 +5,7 @@
 import 'animate.css'
 
 import { ref, onMounted } from 'vue'
-import { http } from 'assets/js/http.js' //配置了基本的设置
+import { http } from 'utils/http.js' //配置了基本的设置
 
 import loginBox from './components/loginBox.vue'
 import changePassword from './components/changePassword.vue'

@@ -32,3 +32,4 @@ coverage
 
 # axios pre config
 /src/assets/js/http.js
+/src/utils/http.js

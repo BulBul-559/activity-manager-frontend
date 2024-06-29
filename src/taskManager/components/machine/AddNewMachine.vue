@@ -1,9 +1,9 @@
 <script setup>
-import { less768 } from 'assets/js/screen'
+import { less768 } from 'utils/screen'
 import { reactive, onMounted, ref } from 'vue'
-import { errorAlert, successAlert } from 'assets/js/message.js'
+import { errorAlert, successAlert } from 'utils/message'
 import { Plus } from '@element-plus/icons-vue'
-import { http } from 'assets/js/http.js' //配置了基本的设置
+import { http } from 'utils/http' //配置了基本的设置
 
 const props = defineProps(['drawer'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])

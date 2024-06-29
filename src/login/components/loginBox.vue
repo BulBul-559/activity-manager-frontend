@@ -1,8 +1,8 @@
 <script setup>
 import 'animate.css'
-import { successAlert, errorAlert } from 'assets/js/message.js'
+import { successAlert, errorAlert } from 'utils/message.js'
 import { reactive, ref } from 'vue'
-import { http } from 'assets/js/http.js' //配置了基本的设置
+import { http } from 'utils/http.js' //配置了基本的设置
 
 const emit = defineEmits(['isLogin'])
 
