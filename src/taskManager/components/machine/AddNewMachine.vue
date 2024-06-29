@@ -12,11 +12,23 @@ const ruleFormRef = ref()
 const imageUrl = ref('')
 let formData = reactive({
   name: '',
+  type: '',
   model: '',
   purchase_date: '',
   description: '',
   profile: ''
 })
+
+const options = [
+  {
+    value: '相机',
+    label: '相机'
+  },
+  {
+    value: '镜头',
+    label: '镜头'
+  }
+]
 
 //  处理初次上传
 const handleChange = (uploadFile) => {
@@ -74,6 +86,7 @@ const rules = reactive({
 const postMachineInfo = () => {
   const form = new FormData()
   form.append('name', formData.name)
+  form.append('type', formData.type)
   form.append('model', formData.model)
   form.append('purchase_date', formData.purchase_date)
   form.append('description', formData.description)
@@ -87,6 +100,7 @@ const postMachineInfo = () => {
       emit('getInfo')
       emit('displayDrawer', false)
       formData.name = ''
+      formData.type = ''
       formData.model = ''
       formData.purchase_date = ''
       formData.description = ''
@@ -145,6 +159,16 @@ onMounted(() => {
             autocomplete="off"
           />
         </el-form-item>
+        <el-form-item class="form-item" label="设备类型" prop="type">
+          <el-select v-model="formData.type" placeholder="请选择设备类型" style="width: 240px">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item class="form-item" label="设备型号" prop="model">
           <el-input
             class="input-box"
@@ -154,6 +178,7 @@ onMounted(() => {
             autocomplete="off"
           />
         </el-form-item>
+
         <el-form-item class="form-item" label="购买时间" prop="purchase_date">
           <el-date-picker
             v-model="formData.purchase_date"
