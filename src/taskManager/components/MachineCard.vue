@@ -14,6 +14,9 @@ let item = ref(props.card_info)
       </div>
       <div class="divider"></div>
       <div class="machine-state">
+        <span class="single-state machine-model">
+          {{ item.model }}
+        </span>
         <span class="single-state machine-type">
           {{ item.type }}
         </span>
@@ -34,11 +37,12 @@ let item = ref(props.card_info)
 .machine-state {
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   margin: 8px 0;
 }
 .single-state {
   padding: 5px 8px;
-  margin: 0 5px;
+  margin: 2px 5px;
   font-size: 16px;
   text-align: center;
   border-radius: 1000px;
@@ -57,7 +61,10 @@ let item = ref(props.card_info)
   color: white;
   background-color: #f68512;
 }
-
+.machine-model {
+  color: white;
+  background-color: grey;
+}
 .machine {
   margin: 20px;
   border-radius: 40px;
@@ -81,26 +88,22 @@ let item = ref(props.card_info)
 .machine:hover > img {
   transform: scale(1.1, 1.1);
 }
+.machine:hover > .machine-detail {
+  bottom: 110px;
+}
+
 .machine-detail {
   padding: 0 15px;
   position: relative;
   background-color: white;
   font-family: 'SmileySans';
-  bottom: 110px;
+  bottom: 70px;
   height: 110px;
+  transition: bottom 1s;
 }
-@media only screen and (min-width: 768px) {
-  .machine-name {
-    padding: 15px 0 0 0;
-    font-size: 30px;
-    margin: 0 0 5px;
-  }
-}
-@media only screen and (max-width: 768px) {
-  .machine-name {
-    padding: 15px 0 0 0;
-    font-size: 26px;
-    margin: 0 0 5px;
-  }
+.machine-name {
+  padding: 15px 0 0 0;
+  font-size: 30px;
+  margin: 0 0 5px;
 }
 </style>
