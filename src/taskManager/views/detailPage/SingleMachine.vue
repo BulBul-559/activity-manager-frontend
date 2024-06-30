@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { http } from 'utils/http'
 
@@ -53,6 +53,9 @@ onMounted(() => {
           {{ machineData.description }}
         </div>
       </div>
+      <div class="option">
+        <el-button>修改 </el-button>
+      </div>
       <div></div>
     </div>
     <div class="time-info"></div>
@@ -85,7 +88,7 @@ onMounted(() => {
   background-color: #008aff;
 }
 .profile-img {
-  object-fit: cover;    
+  object-fit: cover;
 }
 .machine-type {
   color: white;
