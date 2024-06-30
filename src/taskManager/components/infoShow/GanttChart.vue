@@ -88,7 +88,7 @@ function makeOption() {
       show: true,
       top: 70,
       bottom: 20,
-      left: 100,
+      left: 50,
       right: 20,
       backgroundColor: '#fff',
       borderWidth: 0
@@ -181,7 +181,6 @@ function renderGanttItem(params, api) {
   _cartesianYBounds[0] = coordSys.y
   _cartesianYBounds[1] = coordSys.y + coordSys.height
   var barLength = timeEnd[0] - timeStart[0] + singleWidth
-  console.log(api.value(DIM_CATEGORY_INDEX))
   // Get the heigth corresponds to length 1 on y axis.
   var barHeight = api.size([0, 1])[1] * HEIGHT_RATIO
   // x y is where item will start to draw
@@ -258,8 +257,8 @@ function renderAxisLabelItem(params, api) {
       {
         type: 'text',
         style: {
-          x: 24,
-          y: -13,
+          x: 15,
+          y: -12,
           fontWeight: 'bold',
           text: api.value(1),
           textVerticalAlign: 'bottom',

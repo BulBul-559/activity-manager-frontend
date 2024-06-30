@@ -2,11 +2,12 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { http } from 'utils/http'
-
+import GanttChart from 'manager/components/infoShow/GanttChart.vue'
 const route = useRoute()
 
 let machineId = ref()
 let machineData = ref({})
+let ganttChartTitle = ref('相机使用情况')
 
 function getMachineInfo() {
   http
@@ -20,6 +21,20 @@ function getMachineInfo() {
       console.log(error)
     })
 }
+
+let axisData = ref({
+  yAxisLabels: [['周日'], ['周六'], ['周五'], ['周四'], ['周三'], ['周二'], ['周一']],
+  yAxisDimensions: ['日期'],
+  xAxisLabels: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+})
+let ganttItemData = ref({
+  ganttItemInfoLables: ['借用日期', '开始时间', '结束时间', '借用人', '开始时间', '结束时间'],
+  ganttItemInfoDetails: [
+    [4, '一', '四', '程序部', '一', '二'],
+    [2, '一', '二', '媒体中心', '一', '二'],
+    [3, '二', '二', '摄影部', '二', '三']
+  ]
+})
 
 onMounted(() => {
   let linkParams = route.params
@@ -58,10 +73,14 @@ onMounted(() => {
       </div>
       <div></div>
     </div>
-    <div class="time-info"></div>
+    <el-divider> </el-divider>
+    <GanttChart
+      class="time-info"
+      :chart-title="ganttChartTitle"
+      :axis-data="axisData"
+      :gantt-item-data="ganttItemData"
+    ></GanttChart>
   </div>
-  <el-divider> </el-divider>
-  <div></div>
 </template>
 
 <style scoped>
