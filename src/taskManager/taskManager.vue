@@ -9,31 +9,6 @@ import NavList from './components/NavList.vue'
 
 let userStore = useUserStore()
 
-const verifySignIn = new Promise((resolve, reject) => {
-  http
-    .get('/account/youtholer/', {})
-    .then((res) => {
-      // 在这里设置 Pinia状态？
-      let data = res.data.data
-      userStore.$patch({
-        sdut_id: data.sdut_id,
-        is_login: true,
-        name: data.name,
-        department: data.department,
-        identity: data.identity,
-        position: data.position
-      })
-      // store.$patch({ sdut_id: res.data.sdut_id })
-      console.log('已登录')
-      resolve()
-    })
-    .catch(function (error) {
-      console.log(error)
-      userStore.$patch({ sdut_id: 'no id', is_login: false })
-      reject()
-    })
-})
-
 let handleClose = (done) => {
   done()
 }
@@ -44,16 +19,18 @@ function displayHeaderNav(res) {
 }
 
 let _size = ref('0%')
-onMounted(() => {
+onMounted(async () => {
   if (less768()) {
     _size.value = '90%'
   }
 
-  verifySignIn
+  await userStore
+    .initializeUser()
     .then(() => {
       // checkDuty()
     })
-    .catch(() => {
+    .catch((re) => {
+      console.log(re)
       window.location.href = '/youthol/'
     })
 })

@@ -5,8 +5,8 @@ import { errorAlert, successAlert } from 'utils/message'
 import { Plus } from '@element-plus/icons-vue'
 import { http } from 'utils/http' //配置了基本的设置
 
-const props = defineProps(['drawer'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])
+defineProps(['drawer'])
 
 const ruleFormRef = ref()
 const imageUrl = ref('')
@@ -216,7 +216,7 @@ onMounted(() => {
         </el-form-item>
       </el-form>
       <div class="option">
-        <div class="add-btn" @click="submitMachine(ruleFormRef)">添加设备</div>
+        <div class="youthol-btn" @click="submitMachine(ruleFormRef)">添加设备</div>
       </div>
     </template>
   </el-drawer>
@@ -227,7 +227,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
 }
-.add-btn {
+.youthol-btn {
   font-size: 20px;
   margin: 10px 20px;
   padding: 10px 20px;
@@ -238,7 +238,7 @@ onMounted(() => {
   border: 3px #008aff solid;
 }
 
-.add-btn:hover {
+.youthol-btn:hover {
   color: white;
   background-color: #008aff;
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, defineExpose } from 'vue'
+import { onMounted, ref } from 'vue'
 import * as echarts from 'echarts'
 import { errorAlert } from '@/utils/message'
 
@@ -20,6 +20,7 @@ onMounted(() => {
   ganttItemInfoLables = props.ganttItemData.ganttItemInfoLables
   ganttItemInfoDetails = props.ganttItemData.ganttItemInfoDetails
 
+  console.log(ganttItemInfoDetails)
   draw()
 })
 

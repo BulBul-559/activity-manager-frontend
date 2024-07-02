@@ -1,3 +1,119 @@
+export const dateOptions = [
+  {
+    value: '周一',
+    label: '周一'
+  },
+  {
+    value: '周二',
+    label: '周二'
+  },
+  {
+    value: '周三',
+    label: '周三'
+  },
+  {
+    value: '周四',
+    label: '周四'
+  },
+  {
+    value: '周五',
+    label: '周五'
+  },
+  {
+    value: '周六',
+    label: '周六'
+  },
+  {
+    value: '周日',
+    label: '周日'
+  }
+]
+
+export const startTimeOptions = [
+  {
+    value: '08:00:00',
+    label: '第一节'
+  },
+  {
+    value: '08:55:00',
+    label: '第二节'
+  },
+  {
+    value: '10:05:00',
+    label: '第三节'
+  },
+  {
+    value: '11:00:00',
+    label: '第四节'
+  },
+  {
+    value: '14:00:00',
+    label: '第五节'
+  },
+  {
+    value: '14:55:00',
+    label: '第六节'
+  },
+  {
+    value: '16:05:00',
+    label: '第七节'
+  },
+  {
+    value: '17:00:00',
+    label: '第八节'
+  },
+  {
+    value: '19:00:00',
+    label: '第九节'
+  },
+  {
+    value: '19:55:00',
+    label: '第十节'
+  }
+]
+
+export const endTimeOptions = [
+  {
+    value: '08:45:00',
+    label: '第一节'
+  },
+  {
+    value: '09:40:00',
+    label: '第二节'
+  },
+  {
+    value: '10:50:00',
+    label: '第三节'
+  },
+  {
+    value: '11:45:00',
+    label: '第四节'
+  },
+  {
+    value: '14:45:00',
+    label: '第五节'
+  },
+  {
+    value: '15:40:00',
+    label: '第六节'
+  },
+  {
+    value: '16:50:00',
+    label: '第七节'
+  },
+  {
+    value: '17:45:00',
+    label: '第八节'
+  },
+  {
+    value: '19:45:00',
+    label: '第九节'
+  },
+  {
+    value: '20:40:00',
+    label: '第十节'
+  }
+]
 export const departmentOption = [
   { label: '程序部', value: '程序部' },
   { label: '媒体中心', value: '媒体中心' },

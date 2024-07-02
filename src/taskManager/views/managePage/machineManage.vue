@@ -1,14 +1,14 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { http } from 'utils/http' //配置了基本的设置
-import { errorAlert } from 'utils/message'
 import MachineCard from 'manager/components/MachineCard.vue'
 import AddNewMachine from 'manager/components/machine/AddNewMachine.vue'
 import { useUserStore } from 'store/store.js'
+import { http } from 'utils/http' //配置了基本的设置
+import { errorAlert } from 'utils/message'
+import { onMounted, reactive, ref } from 'vue'
 
-let drawer = ref(false)
+let addNewMachineDrawer = ref(false)
 let _size = ref('50%')
-let machine_info = reactive([])
+let machineInfo = reactive([])
 let userStore = useUserStore()
 
 function getMachineInfo() {
@@ -16,7 +16,7 @@ function getMachineInfo() {
     .get('/machine/')
     .then((res) => {
       let data = res.data
-      machine_info.length = 0
+      machineInfo.length = 0
       for (let i = 0; i < res.data.length; i++) {
         let item = {
           url: data[i].profile_url,
@@ -28,7 +28,7 @@ function getMachineInfo() {
           state: '使用中',
           type: data[i].type
         }
-        machine_info.push(item)
+        machineInfo.push(item)
       }
     })
     .catch(function (error) {
@@ -38,8 +38,8 @@ function getMachineInfo() {
 }
 
 // 弹窗控制
-function displayDrawer(val) {
-  drawer.value = val
+function displayAddNewMachine(val) {
+  addNewMachineDrawer.value = val
 }
 
 onMounted(() => {
@@ -50,20 +50,22 @@ onMounted(() => {
   }
   getMachineInfo()
 })
+
+
 </script>
 <template>
   <div class="main-layout">
     <div class="option" v-if="userStore.identity == '管理员'">
-      <div class="add-btn" @click="displayDrawer(true)">添加新设备</div>
+      <div class="youthol-btn" @click="displayAddNewMachine(true)">添加新设备</div>
     </div>
     <div class="machine-list">
-      <MachineCard v-for="item in machine_info" :card_info="item" :key="item"></MachineCard>
+      <MachineCard v-for="item in machineInfo" :card_info="item" :key="item"></MachineCard>
     </div>
   </div>
   <AddNewMachine
     v-if="userStore.identity == '管理员'"
-    :drawer="drawer"
-    @display-drawer="displayDrawer"
+    :drawer="addNewMachineDrawer"
+    @display-drawer="displayAddNewMachine"
     @get-info="getMachineInfo"
   ></AddNewMachine>
 </template>
@@ -73,7 +75,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
 }
-.add-btn {
+.youthol-btn {
   font-size: 20px;
   margin: 10px 20px;
   padding: 10px 20px;
@@ -84,7 +86,7 @@ onMounted(() => {
   border: 3px #008aff solid;
 }
 
-.add-btn:hover {
+.youthol-btn:hover {
   color: white;
   background-color: #008aff;
 }
