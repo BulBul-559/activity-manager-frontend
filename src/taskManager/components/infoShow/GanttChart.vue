@@ -20,7 +20,7 @@ onMounted(() => {
   ganttItemInfoLables = props.ganttItemData.ganttItemInfoLables
   ganttItemInfoDetails = props.ganttItemData.ganttItemInfoDetails
 
-  console.log(ganttItemInfoDetails)
+  // console.log(ganttItemInfoDetails)
   draw()
 })
 

@@ -1,6 +1,8 @@
 <script setup>
 import GanttChart from 'manager/components/infoShow/GanttChart.vue'
+import ModifyMachineInfo from 'manager/components/machine/ModifyMachineInfo.vue'
 import { http } from 'utils/http'
+import { less768 } from 'utils/screen'
 import { onMounted, ref, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from 'store/store.js'
@@ -17,6 +19,9 @@ let formHeight = ref('0px')
 let startOptions = ref([])
 let endOptions = ref([])
 let weekOptions = ref([])
+
+let displayModifyDrawer = ref(false)
+let submitApply = false
 
 let axisData = ref({
   yAxisLabels: '',
@@ -79,6 +84,7 @@ function getBorrowInfo() {
 }
 
 function postBorrowApply() {
+  submitApply = true
   let borrowDate = getFormattedDate(formData.borrowDate)
 
   let data = {
@@ -105,19 +111,27 @@ function postBorrowApply() {
       formData.endTime = ''
       formData.borrowReason = ''
       getBorrowInfo()
+      submitApply = false
     })
     .catch(function (error) {
       errorAlert(error.response.data['detail'])
 
       console.log(error.response.data)
+      submitApply = false
     })
 }
 
-function displayModifyMachine(value) {}
+function displayModifyMachine(value) {
+  displayModifyDrawer.value = value
+}
 
 function displayBorrowMachine() {
   if (formHeight.value === '0px') {
-    formHeight.value = '200px'
+    if (less768()) {
+      formHeight.value = '300px'
+    } else {
+      formHeight.value = '200px'
+    }
   } else {
     formHeight.value = '0px'
   }
@@ -146,6 +160,7 @@ const verifyStartTime = (rule, value, callback) => {
   })
   callback()
 }
+
 const verifyEndTime = (rule, value, callback) => {
   if (value === '') {
     callback(new Error(''))
@@ -172,6 +187,10 @@ const rules = reactive({
 })
 
 const submitMachine = async (formEl) => {
+  if (submitApply) {
+    errorAlert('正在提交，请稍后')
+    return
+  }
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
@@ -205,10 +224,6 @@ function daysBetweenToday(time) {
   borrowDate.setHours(8, 0, 0, 0)
   today.setHours(8, 0, 0, 0)
 
-  console.log(time)
-  console.log(borrowDate)
-  console.log(today)
-
   // 计算时间差，以毫秒为单位
   const diffTime = borrowDate - today
   // 将时间差转换为天数
@@ -219,7 +234,6 @@ function daysBetweenToday(time) {
 
 function getTimeLabel(dateString, optionsList) {
   // 创建日期对象
-  console.log(dateString)
   const date = new Date(dateString)
 
   // 提取时间部分，改为使用本地时间的方法
@@ -279,6 +293,7 @@ onMounted(async () => {
       <div class="profile-box">
         <img :src="machineData.profile_url" alt="" class="profile-img" />
       </div>
+      <div></div>
       <div class="text-box">
         <div class="machine-title">{{ machineData.name }}</div>
         <div class="divider"></div>
@@ -297,6 +312,7 @@ onMounted(async () => {
           {{ machineData.description }}
         </div>
       </div>
+      <div></div>
       <div class="option">
         <div class="youthol-btn borrow-machine-btn" @click="displayBorrowMachine">借用设备</div>
         <div
@@ -307,6 +323,7 @@ onMounted(async () => {
           修改信息
         </div>
       </div>
+      <div></div>
       <div></div>
     </div>
     <el-divider> </el-divider>
@@ -383,6 +400,14 @@ onMounted(async () => {
       :gantt-item-data="ganttItemData"
     ></GanttChart>
   </div>
+
+  <ModifyMachineInfo
+    v-if="flag"
+    :drawer="displayModifyDrawer"
+    :machine-info="machineData"
+    @display-drawer="displayModifyMachine"
+    @get-info="getMachineInfo"
+  ></ModifyMachineInfo>
 </template>
 
 <style scoped>
@@ -421,6 +446,7 @@ onMounted(async () => {
 }
 .text-box {
   font-family: 'SmileySans';
+  width: 300px;
 }
 
 .basic-info {
@@ -460,11 +486,11 @@ onMounted(async () => {
 @media only screen and (min-width: 768px) {
   .basic-info {
     justify-content: space-around;
-    align-items: flex-end;
+    align-items: center;
   }
   .profile-img {
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
   }
   .machine-title {
     font-size: 60px;
@@ -482,6 +508,7 @@ onMounted(async () => {
   .machine-description {
     font-size: 25px;
     margin: 10px 15px;
+    width: 100%;
   }
 }
 
@@ -512,6 +539,7 @@ onMounted(async () => {
   .machine-description {
     font-size: 25px;
     margin: 10px 15px;
+    width: 100%;
   }
 }
 </style>

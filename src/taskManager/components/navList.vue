@@ -35,10 +35,6 @@ function close() {
       <div class="duty nav-item" @click="close">活动管理</div>
     </router-link>
 
-    <router-link to="/machine-borrow">
-      <div class="duty nav-item" @click="close">设备借用</div>
-    </router-link>
-
     <router-link to="/execute-activity">
       <div class="duty nav-item" @click="close">活动处理</div>
     </router-link>

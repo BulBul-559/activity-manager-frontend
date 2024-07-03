@@ -39,13 +39,6 @@ const router = createRouter({
       }
     },
     {
-      path: '/machine-borrow',
-      name: 'machine-borrow',
-      components: {
-        MainComponment: () => import('actionPage/MachineBorrow.vue')
-      }
-    },
-    {
       path: '/execute-activity',
       name: 'execute-activity',
       components: {
