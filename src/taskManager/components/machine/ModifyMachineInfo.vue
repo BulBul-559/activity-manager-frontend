@@ -1,7 +1,7 @@
 <script setup>
 import { less768 } from 'utils/screen'
 import { reactive, onMounted, ref } from 'vue'
-import { errorAlert, successAlert } from 'utils/message'
+import { errorAlert, successAlert, messageBox } from 'utils/message'
 import { Plus } from '@element-plus/icons-vue'
 import { http } from 'utils/http' //配置了基本的设置
 
@@ -149,10 +149,35 @@ const submitMachine = async (formEl) => {
   })
 }
 
+const handleDelete = () => {
+  const success = () => {
+    http
+      .delete('/machine/' + formData.value.id + '/')
+      .then(() => {
+        successAlert('删除设备成功')
+        emit('displayMemberEdit', false)
+        emit('getInfo')
+      })
+      .catch((err) => {
+        console.log(err)
+        errorAlert('删除设备失败')
+      })
+  }
+  const error = () => {
+    errorAlert('取消操作')
+  }
+
+  let title = '删除成员'
+  let text = '确定要删除 ' + formData.value.name + ' 吗？'
+  let confirmText = '确定删除'
+  let cancelText = '取消'
+
+  messageBox(text, title, confirmText, cancelText, success, error)
+}
+
 let _size = ref('50%')
 onMounted(() => {
   formData.value = JSON.parse(JSON.stringify(props.machineInfo))
-
   imageUrl.value = props.machineInfo.profile_url
   if (less768()) {
     _size.value = '90%'
@@ -242,7 +267,8 @@ onMounted(() => {
         </el-form-item>
       </el-form>
       <div class="option">
-        <div class="youthol-btn" @click="submitMachine(ruleFormRef)">修改信息</div>
+        <el-button type="primary" plain @click="submitMachine(ruleFormRef)">确认修改</el-button>
+        <el-button type="danger" plain @click="handleDelete">删除设备</el-button>
       </div>
     </template>
   </el-drawer>

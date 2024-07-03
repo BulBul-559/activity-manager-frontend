@@ -132,6 +132,13 @@ export const identityOption = [
   { label: '管理员', value: '管理员' }
 ]
 
+export const positionOption = [
+  { label: '成员', value: '成员' },
+  { label: '副部长', value: '副部长' },
+  { label: '部长', value: '部长' },
+  { label: '站长', value: '站长' }
+]
+
 export const dutyDayOption = [
   { label: '0：未安排', value: '0' },
   { label: '1：周一', value: '1' },

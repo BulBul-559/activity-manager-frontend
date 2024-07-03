@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
-import { http } from 'utils/http.js' //配置了基本的设置
 import { less768 } from 'utils/screen.js' //配置了基本的设置
 import { useUserStore } from 'store/store.js'
 // import { errorAlert } from 'assets/js/message.js'

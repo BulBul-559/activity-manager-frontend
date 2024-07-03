@@ -5,10 +5,12 @@ import { http } from 'utils/http'
 import { less768 } from 'utils/screen'
 import { onMounted, ref, reactive } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 const route = useRoute()
+const router = useRouter()
 const userStore = useUserStore()
 
 let machineId = ref()
@@ -35,14 +37,15 @@ let ganttItemData = ref({
 
 let yAxisLabels = []
 
-function getMachineInfo() {
-  http
+async function getMachineInfo() {
+  await http
     .get('/machine/' + machineId.value)
     .then((res) => {
       machineData.value = res.data
       machineData.value.state = '借用中'
     })
     .catch(function (error) {
+      router.go(-1)
       console.log(error)
     })
 }
@@ -100,8 +103,7 @@ function postBorrowApply() {
       finish_time: data.end_time,
       borrow_reason: data.borrow_reason
     })
-    .then((res) => {
-      console.log(res)
+    .then(() => {
       successAlert('设备借用成功')
       displayBorrowMachine()
     })
@@ -278,12 +280,14 @@ onMounted(async () => {
   let linkParams = route.params
   machineId.value = linkParams.machineId
 
-  getMachineInfo()
-  startOptions.value = startTimeOptions
-  endOptions.value = endTimeOptions
-  getNear7Day()
-
-  getBorrowInfo()
+  // 确保getMachineInfo完成
+  await Promise.all([getMachineInfo()]).then(() => {
+    // 确保getBorrowInfo在getMachineInfo之后执行
+    endOptions.value = endTimeOptions
+    startOptions.value = startTimeOptions
+    getNear7Day()
+    getBorrowInfo()
+  })
 })
 </script>
 <template>
