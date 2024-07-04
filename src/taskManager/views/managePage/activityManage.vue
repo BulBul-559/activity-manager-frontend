@@ -49,7 +49,7 @@ onMounted(async () => {
   <div class="main-layout">
     <div class="option" v-if="userStore.identity == '管理员'">
       <router-link :to="'/add-activity/'">
-        <div class="youthol-btn" @click="displayAddNewActivity(true)">添加新设备</div>
+        <div class="youthol-btn" @click="displayAddNewActivity(true)">添加新活动</div>
       </router-link>
     </div>
     <el-divider></el-divider>
