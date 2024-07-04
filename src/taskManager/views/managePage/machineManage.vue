@@ -44,7 +44,7 @@ function getMachineInfo() {
     })
 }
 
-// 弹窗控制
+// 抽屉控制
 function displayAddNewMachine(val) {
   addNewMachineDrawer.value = val
 }
@@ -63,6 +63,7 @@ onMounted(() => {
     <div class="option" v-if="userStore.identity == '管理员'">
       <div class="youthol-btn" @click="displayAddNewMachine(true)">添加新设备</div>
     </div>
+    <el-divider></el-divider>
     <div class="machine-list">
       <MachineCard v-for="item in machineInfo" :card_info="item" :key="item"></MachineCard>
     </div>

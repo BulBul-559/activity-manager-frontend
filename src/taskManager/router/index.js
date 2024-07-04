@@ -58,6 +58,13 @@ const router = createRouter({
       components: {
         MainComponment: () => import('detailPage/ActivityDetail.vue')
       }
+    },
+    {
+      path: '/add-activity/',
+      name: 'add-activity',
+      components: {
+        MainComponment: () => import('actionPage/AddNewActivity.vue')
+      }
     }
   ]
 })

@@ -18,7 +18,11 @@ import ActivityCard from 'manager/components/infoShow/ActivityCard.vue'
 
 const userStore = useUserStore()
 
+// 活动数据
 let activityData = ref([])
+
+// 控制标志变量
+let addNewActiviyDrawer = ref(false)
 
 function getActivityData() {
   http
@@ -31,24 +35,54 @@ function getActivityData() {
     })
 }
 
+// 弹窗控制
+function displayAddNewActivity(val) {
+  addNewActiviyDrawer.value = val
+}
+
 onMounted(async () => {
   await userStore.initializeUser()
   getActivityData()
 })
 </script>
 <template>
-  <div>activity manage</div>
-  <div class="activity-list">
-    <ActivityCard
-      v-for="item in activityData"
-      :key="item.id"
-      :activity-info="item"
-      @get-info="getActivityData"
-    ></ActivityCard>
+  <div class="main-layout">
+    <div class="option" v-if="userStore.identity == '管理员'">
+      <router-link :to="'/add-activity/'">
+        <div class="youthol-btn" @click="displayAddNewActivity(true)">添加新设备</div>
+      </router-link>
+    </div>
+    <el-divider></el-divider>
+    <div class="activity-list">
+      <ActivityCard
+        v-for="item in activityData"
+        :key="item.id"
+        :activity-info="item"
+        @get-info="getActivityData"
+      ></ActivityCard>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.option {
+  display: flex;
+  justify-content: center;
+}
+.youthol-btn {
+  font-size: 20px;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #008aff;
+  background-color: white;
+  border: 3px #008aff solid;
+}
+.youthol-btn:hover {
+  color: white;
+  background-color: #008aff;
+}
 .activity-list {
   display: flex;
   align-items: center;
