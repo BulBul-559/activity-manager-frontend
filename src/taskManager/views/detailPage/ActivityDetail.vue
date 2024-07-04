@@ -13,6 +13,14 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
+/**
+ *
+ * 活动详情页面
+ *
+ * @description 展示活动的详细信息
+ * @todo 未完成
+ */
+
 let activityId = ref()
 
 onMounted(async () => {

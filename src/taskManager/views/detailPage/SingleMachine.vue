@@ -9,22 +9,36 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
+
+/**
+ * 单个设备信息展示
+ *
+ * @description 展示设备的基本信息，提供修改和删除入口，同时能够对设备进行借用操作
+ *
+ */
+
+//  Router 和 Pinia
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
+// 设备信息
 let machineId = ref()
 let machineData = ref({})
-let ganttChartTitle = ref('相机使用情况')
-let formHeight = ref('0px')
 
+// 时间选择器的选项
 let startOptions = ref([])
 let endOptions = ref([])
 let weekOptions = ref([])
 
+// 控制标志变量
+let formHeight = ref('0px')
 let displayModifyDrawer = ref(false)
 let submitApply = false
+let flag = ref(false) // 控制是否显示 Gantt Chart 和 Borrow Form
 
+// Gantt Chart 的数据
+let ganttChartTitle = ref('相机使用情况')
 let axisData = ref({
   yAxisLabels: '',
   yAxisDimensions: ['日期'],
@@ -34,8 +48,6 @@ let ganttItemData = ref({
   ganttItemInfoLables: ['借用日期', '开始时间', '结束时间', '借用人', '开始时间', '结束时间'],
   ganttItemInfoDetails: []
 })
-
-let yAxisLabels = []
 
 async function getMachineInfo() {
   await http
@@ -204,8 +216,7 @@ const submitMachine = async (formEl) => {
   })
 }
 
-let flag = ref(false)
-
+// 格式化日期
 const getFormattedDate = (offset) => {
   const today = new Date()
   const targetDate = new Date()
@@ -218,6 +229,7 @@ const getFormattedDate = (offset) => {
   return `${year}-${month}-${day}`
 }
 
+// 计算日期差（传入日期与今天）
 function daysBetweenToday(time) {
   const startDate = new Date(time)
   const today = new Date()
@@ -253,7 +265,10 @@ function getTimeLabel(dateString, optionsList) {
   return '未知时间段'
 }
 
+// 获取最近七天的排序，保证今天在最上面
 function getNear7Day() {
+  let yAxisLabels = []
+
   const daysOfWeek = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
   const today = new Date()
   const todayIndex = today.getDay() // 返回 0（周日）到 6（周六）

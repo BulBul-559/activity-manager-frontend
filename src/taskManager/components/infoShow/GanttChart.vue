@@ -2,6 +2,18 @@
 import { onMounted, ref } from 'vue'
 import * as echarts from 'echarts'
 import { errorAlert } from '@/utils/message'
+/**
+ * Gantt Chart 组件
+ * @param {string} chartTitle - 图表标题
+ * @param {object} axisData - 坐标轴数据
+ *         - @param {array} yAxisLabels - y轴标签
+ *         - @param {array} yAxisDimensions - y轴维度
+ *         - @param {array} xAxisLabels - x轴标签
+ *         - @param {array} xAxisDimensions - x轴维度
+ * @param {object} ganttItemData - 甘特图数据
+ *         - @param {array} ganttItemInfoLables - 甘特图数据标签
+ *         - @param {array} ganttItemInfoDetails - 甘特图数据详情
+ */
 
 const props = defineProps(['chartTitle', 'axisData', 'ganttItemData'])
 

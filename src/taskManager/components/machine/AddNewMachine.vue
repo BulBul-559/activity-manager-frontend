@@ -5,6 +5,12 @@ import { errorAlert, successAlert } from 'utils/message'
 import { Plus } from '@element-plus/icons-vue'
 import { http } from 'utils/http' //配置了基本的设置
 
+/**
+ * 添加新设备
+ *
+ * @description 添加新设备的抽屉组件
+ */
+
 const emit = defineEmits(['displayDrawer', 'getInfo'])
 defineProps(['drawer'])
 

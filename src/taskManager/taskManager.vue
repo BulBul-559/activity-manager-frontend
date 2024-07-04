@@ -3,8 +3,13 @@ import { onMounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { less768 } from 'utils/screen.js' //配置了基本的设置
 import { useUserStore } from 'store/store.js'
-// import { errorAlert } from 'assets/js/message.js'
 import NavList from './components/NavList.vue'
+
+/**
+ * Main Page
+ *
+ * @description 项目的主体页面，包含了基本布局和导航栏
+ */
 
 let userStore = useUserStore()
 
@@ -18,6 +23,7 @@ function displayHeaderNav(res) {
 }
 
 let _size = ref('0%')
+
 onMounted(async () => {
   if (less768()) {
     _size.value = '90%'

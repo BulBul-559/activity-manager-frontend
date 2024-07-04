@@ -5,6 +5,12 @@ import { errorAlert, successAlert, messageBox } from 'utils/message'
 import { Plus } from '@element-plus/icons-vue'
 import { http } from 'utils/http' //配置了基本的设置
 
+/**
+ * 修改设备信息
+ *
+ * @description 修改设备信息的抽屉组件
+ */
+
 const emit = defineEmits(['displayDrawer', 'getInfo'])
 const props = defineProps(['drawer', 'machineInfo'])
 let submitModify = false

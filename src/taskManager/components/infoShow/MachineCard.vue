@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+/**
+ * 单个设备信息展示的卡片
+ */
 const props = defineProps(['card_info'])
 
 let item = ref(props.card_info)

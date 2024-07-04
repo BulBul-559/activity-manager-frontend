@@ -1,10 +1,17 @@
 <script setup>
-import MachineCard from 'manager/components/MachineCard.vue'
+import MachineCard from 'manager/components/infoShow/MachineCard.vue'
 import AddNewMachine from 'manager/components/machine/AddNewMachine.vue'
 import { useUserStore } from 'store/store.js'
 import { http } from 'utils/http' //配置了基本的设置
 import { errorAlert } from 'utils/message'
 import { onMounted, reactive, ref } from 'vue'
+
+/**
+ * 设备管理主页面
+ *
+ * @description 设备管理页面，展示所有的活动，提供设备添加入口以及单个设备的删改入口
+ *
+ */
 
 let addNewMachineDrawer = ref(false)
 let _size = ref('50%')
@@ -50,8 +57,6 @@ onMounted(() => {
   }
   getMachineInfo()
 })
-
-
 </script>
 <template>
   <div class="main-layout">

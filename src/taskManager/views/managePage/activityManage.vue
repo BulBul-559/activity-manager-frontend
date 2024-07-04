@@ -9,6 +9,13 @@ import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 import ActivityCard from 'manager/components/infoShow/ActivityCard.vue'
 
+/**
+ * 活动管理主页面
+ *
+ * @description 展示所有活动，提供单个活动管理的入口以及活动的增删入口
+ *
+ */
+
 const userStore = useUserStore()
 
 let activityData = ref([])

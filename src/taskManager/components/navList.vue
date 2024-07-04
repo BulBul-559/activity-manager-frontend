@@ -1,6 +1,13 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { useUserStore } from 'store/store.js'
+
+/**
+ * 导航栏
+ *
+ * @description 导航栏，根据用户的身份展示不同的导航栏，根据设别不同展示不同样式
+ */
+
 const emit = defineEmits(['displayHeaderNav'])
 let userStore = useUserStore()
 

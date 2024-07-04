@@ -5,6 +5,12 @@ import { ref, reactive, onMounted } from 'vue'
 import { errorAlert, successAlert } from 'utils/message.js'
 import { departmentOption, identityOption, positionOption } from 'utils/filter.js'
 
+/**
+ * 添加新成员
+ *
+ * @description 添加新成员的抽屉组件
+ */
+
 defineProps(['drawer'])
 const emit = defineEmits(['displayMemberAdd', 'getInfo'])
 

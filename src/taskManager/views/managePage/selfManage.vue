@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+// TODO: Show user info
+</script>
 <template>
   <div>self manage</div>
 </template>

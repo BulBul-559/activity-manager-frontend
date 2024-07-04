@@ -1,12 +1,15 @@
 <script setup>
 import { http } from 'utils/http'
-// import { useUserStore } from 'store/store'
 import { ref, reactive, onMounted } from 'vue'
 import { errorAlert } from 'utils/message.js'
 import ModifyMemberInfo from 'manager/components/youtholer/ModifyMemberInfo.vue'
 import AddNewMember from 'manager/components/youtholer/AddNewMember.vue'
 
-// let userStore = useUserStore()
+/**
+ * 成员管理主页面
+ * 
+ * @description 展示所有的成员，提供成员添加入口以及单个成员的删改入口
+ */
 
 let tableRef = ref()
 let tableData = reactive([])
@@ -23,54 +26,7 @@ let editInfo = reactive({
   position: ''
 })
 
-// const formatter = (data) => {
-//   let duty_list = data.duty
-//   let res = ''
-//   for (let i = 0; i < duty_list.length; i++) {
-//     if (i == 0) res = '周'
-//     else res += '，周'
-//     switch (duty_list[i].day) {
-//       case 1:
-//         res += '一'
-//         break
-//       case 2:
-//         res += '二'
-//         break
-//       case 3:
-//         res += '三'
-//         break
-//       case 4:
-//         res += '四'
-//         break
-//       case 5:
-//         res += '五'
-//         break
-//       case 6:
-//         res += '六'
-//         break
-//       case 7:
-//         res += '日'
-//         break
-//     }
-//     switch (duty_list[i].frame) {
-//       case 1:
-//         res += '12节'
-//         break
-//       case 2:
-//         res += '34节'
-//         break
-//       case 3:
-//         res += '56节'
-//         break
-//       case 4:
-//         res += '78节'
-//         break
-//       case 5:
-//         res += '910节'
-//     }
-//   }
-//   return res
-// }
+
 const filterHandler = (value, row, column) => {
   const property = column['property']
   return row[property] === value
