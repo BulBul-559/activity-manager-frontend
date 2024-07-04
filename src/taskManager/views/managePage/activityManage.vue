@@ -8,6 +8,7 @@ import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 import ActivityCard from 'manager/components/infoShow/ActivityCard.vue'
+import AddNewActivity from 'manager/components/activity/AddNewActivity.vue'
 
 /**
  * 活动管理主页面
@@ -22,7 +23,7 @@ const userStore = useUserStore()
 let activityData = ref([])
 
 // 控制标志变量
-let addNewActiviyDrawer = ref(false)
+let addNewActivityDrawer = ref(false)
 
 function getActivityData() {
   http
@@ -37,7 +38,7 @@ function getActivityData() {
 
 // 弹窗控制
 function displayAddNewActivity(val) {
-  addNewActiviyDrawer.value = val
+  addNewActivityDrawer.value = val
 }
 
 onMounted(async () => {
@@ -48,9 +49,7 @@ onMounted(async () => {
 <template>
   <div class="main-layout">
     <div class="option" v-if="userStore.identity == '管理员'">
-      <router-link :to="'/add-activity/'">
-        <div class="youthol-btn" @click="displayAddNewActivity(true)">添加新活动</div>
-      </router-link>
+      <div class="youthol-btn" @click="displayAddNewActivity(true)">添加新活动</div>
     </div>
     <el-divider></el-divider>
     <div class="activity-list">
@@ -62,6 +61,13 @@ onMounted(async () => {
       ></ActivityCard>
     </div>
   </div>
+
+  <AddNewActivity
+    v-if="userStore.identity == '管理员'"
+    :drawer="addNewActivityDrawer"
+    @display-drawer="displayAddNewActivity"
+    @get-info="getActivityData"
+  ></AddNewActivity>
 </template>
 
 <style scoped>
