@@ -167,7 +167,7 @@ const handleDelete = () => {
     errorAlert('取消操作')
   }
 
-  let title = '删除成员'
+  let title = '删除设备'
   let text = '确定要删除 ' + formData.value.name + ' 吗？'
   let confirmText = '确定删除'
   let cancelText = '取消'

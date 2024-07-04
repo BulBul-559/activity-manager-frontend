@@ -61,16 +61,16 @@ function getBorrowInfo() {
       for (let i = 0; i < data.length; i++) {
         // 因为 Gantt Chart 的纵坐标是从下向上递增的，为了更好的显示，我们将最近的日期放在了最上面，因此越近的日期 idx 越大
         let borrow_day =
-          axisData.value.yAxisLabels.length - daysBetweenToday(data[i]['borrow_time']) - 1
+          axisData.value.yAxisLabels.length - daysBetweenToday(data[i]['start_time']) - 1
         let ganttItem = []
-        let borrow_time = getTimeLabel(data[i]['borrow_time'], startOptions.value)
+        let start_time = getTimeLabel(data[i]['start_time'], startOptions.value)
         let finish_time = getTimeLabel(data[i]['finish_time'], endOptions.value)
 
         ganttItem.push(borrow_day)
-        ganttItem.push(borrow_time)
+        ganttItem.push(start_time)
         ganttItem.push(finish_time)
         ganttItem.push(data[i]['borrower'])
-        ganttItem.push(borrow_time)
+        ganttItem.push(start_time)
         ganttItem.push(finish_time)
 
         ganttItemList.push(ganttItem)
@@ -88,18 +88,18 @@ function getBorrowInfo() {
 
 function postBorrowApply() {
   submitApply = true
-  let borrowDate = getFormattedDate(formData.borrowDate)
+  let startDate = getFormattedDate(formData.startDate)
 
   let data = {
-    start_time: borrowDate + 'T' + formData.startTime,
-    end_time: borrowDate + 'T' + formData.endTime,
+    start_time: startDate + 'T' + formData.startTime,
+    end_time: startDate + 'T' + formData.endTime,
     borrow_reason: formData.borrowReason
   }
   http
     .post('/borrow/', {
       machine: Number(machineId.value),
       youtholer: userStore.user_id,
-      borrow_time: data.start_time,
+      start_time: data.start_time,
       finish_time: data.end_time,
       borrow_reason: data.borrow_reason
     })
@@ -108,7 +108,7 @@ function postBorrowApply() {
       displayBorrowMachine()
     })
     .then(() => {
-      formData.borrowDate = ''
+      formData.startDate = ''
       formData.startTime = ''
       formData.endTime = ''
       formData.borrowReason = ''
@@ -142,7 +142,7 @@ function displayBorrowMachine() {
 // 设备借用表单验证
 const ruleFormRef = ref()
 let formData = reactive({
-  borrowDate: '',
+  startDate: '',
   startTime: '',
   endTime: '',
   borrowReason: ''
@@ -178,7 +178,7 @@ const verifyEndTime = (rule, value, callback) => {
 }
 
 const rules = reactive({
-  borrowDate: [{ required: true, message: '请选择借用日期', trigger: 'blur' }],
+  startDate: [{ required: true, message: '请选择借用日期', trigger: 'blur' }],
   startTime: [
     { required: true, validator: verifyStartTime, message: '请选择开始时间', trigger: 'change' }
   ],
@@ -219,15 +219,15 @@ const getFormattedDate = (offset) => {
 }
 
 function daysBetweenToday(time) {
-  const borrowDate = new Date(time)
+  const startDate = new Date(time)
   const today = new Date()
 
-  // 将 borrowDate 和 today 都设置为早上八点
-  borrowDate.setHours(8, 0, 0, 0)
+  // 将 startDate 和 today 都设置为早上八点
+  startDate.setHours(8, 0, 0, 0)
   today.setHours(8, 0, 0, 0)
 
   // 计算时间差，以毫秒为单位
-  const diffTime = borrowDate - today
+  const diffTime = startDate - today
   // 将时间差转换为天数
   let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
@@ -342,12 +342,8 @@ onMounted(async () => {
         label-width="100px"
         :inline="true"
       >
-        <el-form-item class="form-item" label="借用日期" prop="borrowDate">
-          <el-select
-            v-model="formData.borrowDate"
-            placeholder="请选择借用日期"
-            style="width: 180px"
-          >
+        <el-form-item class="form-item" label="借用日期" prop="startDate">
+          <el-select v-model="formData.startDate" placeholder="请选择借用日期" style="width: 180px">
             <el-option
               v-for="item in weekOptions"
               :key="item.value"
