@@ -51,6 +51,13 @@ const router = createRouter({
       components: {
         MainComponment: () => import('detailPage/SingleMachine.vue')
       }
+    },
+    {
+      path: '/activity-detail/:activityId',
+      name: 'activity-detail',
+      components: {
+        MainComponment: () => import('detailPage/ActivityDetail.vue')
+      }
     }
   ]
 })
