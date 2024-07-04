@@ -17,7 +17,6 @@ function getActivityData() {
   http
     .get('/activity/')
     .then((res) => {
-      console.log(res.data)
       activityData.value = res.data
     })
     .catch(function (error) {
@@ -33,20 +32,30 @@ onMounted(async () => {
 <template>
   <div>activity manage</div>
   <div class="activity-list">
-    <ActivityCard v-for="item in activityData" :key="item.id" :activity-info="item"></ActivityCard>
+    <ActivityCard
+      v-for="item in activityData"
+      :key="item.id"
+      :activity-info="item"
+      @get-info="getActivityData"
+    ></ActivityCard>
   </div>
 </template>
 
 <style scoped>
 .activity-list {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
   /* flex-direction: column; */
 }
 @media only screen and (min-width: 768px) {
+  .activity-list {
+    justify-content: flex-start;
+  }
 }
 @media only screen and (max-width: 768px) {
+  .activity-list {
+    justify-content: center;
+  }
 }
 </style>

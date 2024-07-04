@@ -1,12 +1,8 @@
 <script setup>
 import { http } from 'utils/http'
-import { less768 } from 'utils/screen'
-import { onMounted, ref, reactive } from 'vue'
-import { useRoute } from 'vue-router'
-import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
 import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert, messageBox } from 'utils/message'
-import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 
 const userStore = useUserStore()
 const props = defineProps(['activityInfo'])
@@ -49,7 +45,6 @@ function formatDate(dateString) {
 }
 
 onMounted(() => {
-  console.log(props.activityInfo)
   data.value = props.activityInfo
 })
 </script>

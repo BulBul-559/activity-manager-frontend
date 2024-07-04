@@ -28,10 +28,11 @@ function close() {
       <div class="duty nav-item" @click="close">设备管理</div>
     </router-link>
 
-    <router-link
+    <!-- <router-link
       to="/activity-manage"
       v-if="userStore.position == '负责人' || userStore.identity == '管理员'"
-    >
+    >    -->
+    <router-link to="/activity-manage">
       <div class="duty nav-item" @click="close">活动管理</div>
     </router-link>
 

@@ -15,9 +15,6 @@ const userStore = useUserStore()
 
 let activityId = ref()
 
-let startOptions = ref([])
-let endOptions = ref([])
-
 onMounted(async () => {
   await userStore.initializeUser()
   let linkParams = route.params
