@@ -1,7 +1,6 @@
 <script setup>
 import { http } from 'utils/http'
 import { onMounted, ref } from 'vue'
-import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert, messageBox } from 'utils/message'
 
 /**
@@ -9,7 +8,6 @@ import { errorAlert, successAlert, messageBox } from 'utils/message'
  * @description 单个照片的展示卡片
  */
 
-const userStore = useUserStore()
 const props = defineProps(['entryInfo'])
 const emit = defineEmits(['getInfo', 'displayDrawer'])
 let data = ref()

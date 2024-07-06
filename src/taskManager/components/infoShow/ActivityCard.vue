@@ -173,7 +173,7 @@ onMounted(() => {
 }
 @media only screen and (min-width: 768px) {
   .activity-card {
-    width: 650px;
+    width: 520px;
     justify-content: space-between;
   }
   .activity-option {
