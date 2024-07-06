@@ -161,7 +161,7 @@ const handleDelete = () => {
       .delete('/machine/' + formData.value.id + '/')
       .then(() => {
         successAlert('删除设备成功')
-        emit('displayMemberEdit', false)
+        emit('displayDrawer', false)
         emit('getInfo')
       })
       .catch((err) => {

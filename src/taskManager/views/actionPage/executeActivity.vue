@@ -8,6 +8,8 @@ import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 import AddNewActivityEntry from 'manager/components/activity/AddNewActivityEntry.vue'
+import ModifyEntry from 'manager/components/activity/ModifyEntry.vue'
+import EntryCard from 'manager/components/infoShow/EntryCard.vue'
 
 /**
  *
@@ -16,18 +18,26 @@ import AddNewActivityEntry from 'manager/components/activity/AddNewActivityEntry
 
 //  Router 和 Pinia
 const route = useRoute()
-const router = useRouter()
 const userStore = useUserStore()
 
 let refresh = ref(false)
 let activityId = ref()
 
 let activityData = ref([])
+let entryData = ref([])
+let singleEntryData = ref([])
 
 let addNewActivityEntryDrawer = ref(false)
 
 function displayAddNewActivityEntry(val) {
   addNewActivityEntryDrawer.value = val
+}
+
+let modifyEntryDrawer = ref(false)
+
+function displayModifyEntry(val, data) {
+  modifyEntryDrawer.value = val
+  singleEntryData.value = data
 }
 
 function getActivityData() {
@@ -41,8 +51,16 @@ function getActivityData() {
     })
 }
 
-function getEntryData() {
-  return
+function getActivityEntry() {
+  http
+    .get('/entry/?activity_id=' + activityId.value)
+    .then((res) => {
+      entryData.value = res.data
+      console.log(res.data)
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
 }
 
 function changeRefreshMode(mode) {
@@ -54,6 +72,8 @@ onMounted(async () => {
   let linkParams = route.params
   activityId.value = linkParams.activityId
   getActivityData()
+
+  getActivityEntry()
 })
 </script>
 <template>
@@ -71,7 +91,16 @@ onMounted(async () => {
       </div>
     </div>
     <el-divider></el-divider>
-    <div class="img-list"></div>
+    <div class="entry-list">
+      <EntryCard
+        v-for="item in entryData"
+        :key="item.id"
+        :entry-info="item"
+        @get-info="getActivityEntry"
+        @display-drawer="displayModifyEntry"
+      >
+      </EntryCard>
+    </div>
   </div>
 
   <AddNewActivityEntry
@@ -79,8 +108,17 @@ onMounted(async () => {
     :drawer="addNewActivityEntryDrawer"
     :activityId="activityId"
     @display-drawer="displayAddNewActivityEntry"
-    @get-info="getEntryData"
+    @get-info="getActivityEntry"
   ></AddNewActivityEntry>
+  <ModifyEntry
+    v-if="userStore.identity == '管理员' && modifyEntryDrawer"
+    :drawer="modifyEntryDrawer"
+    :activityId="activityId"
+    :entryData="singleEntryData"
+    @display-drawer="displayModifyEntry"
+    @get-info="getActivityEntry"
+  >
+  </ModifyEntry>
 </template>
 
 <style scoped>
@@ -131,5 +169,21 @@ onMounted(async () => {
   color: white;
   background-color: rgb(255, 53, 53);
   border: 3px rgb(255, 53, 53) solid;
+}
+.entry-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+}
+@media only screen and (min-width: 768px) {
+  .entry-list {
+    justify-content: flex-start;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .entry-list {
+    justify-content: center;
+  }
 }
 </style>

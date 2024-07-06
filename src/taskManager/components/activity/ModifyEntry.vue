@@ -1,7 +1,7 @@
 <script setup>
 import { less768 } from 'utils/screen'
 import { reactive, onMounted, ref } from 'vue'
-import { errorAlert, successAlert } from 'utils/message'
+import { errorAlert, successAlert, messageBox } from 'utils/message'
 import { http } from 'utils/http' //配置了基本的设置
 import { useUserStore } from 'store/store.js'
 
@@ -12,19 +12,17 @@ import { useUserStore } from 'store/store.js'
  */
 const userStore = useUserStore()
 
-const props = defineProps(['drawer', 'activityId'])
+const props = defineProps(['drawer', 'activityId', 'entryData'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])
 const ruleFormRef = ref()
-let formData = reactive({
+let formData = ref({
   photo_name: '',
-  description: '',
-  uploader: '',
-  activity: ''
+  description: ''
 })
 
 // 关闭添加弹窗
 let handleClose = (done) => {
-  emit('displayDrawer', false)
+  emit('displayDrawer', false, {})
   done()
 }
 
@@ -33,18 +31,13 @@ const rules = reactive({
 })
 
 const postEntryInfo = () => {
-  formData.activity = props.activityId
-  formData.uploader = userStore.user_id
   http
-    .post('/entry/', formData)
+    .patch('/entry/' + props.entryData.id + '/', formData.value)
     .then((res) => {
       console.log(res.data)
-      successAlert('添加成功')
+      successAlert('修改成功')
       emit('getInfo')
-      emit('displayDrawer', false)
-      formData.photo_name = ''
-      formData.uploader = ''
-      formData.activity = ''
+      emit('displayDrawer', false, {})
     })
     .catch((err) => {
       console.log(err)
@@ -62,12 +55,37 @@ const submitActivityEntry = async (formEl) => {
     }
   })
 }
+const handleDelete = () => {
+  const success = () => {
+    http
+      .delete('/entry/' + props.entryData.id + '/')
+      .then(() => {
+        successAlert('删除记录成功')
+        emit('displayDrawer', false, {})
+        emit('getInfo')
+      })
+      .catch((err) => {
+        console.log(err)
+        errorAlert('删除记录失败')
+      })
+  }
+  const error = () => {
+    errorAlert('取消操作')
+  }
 
+  let title = '删除设备'
+  let text = '确定要删除 ' + props.entryData.photo_name + ' 吗？'
+  let confirmText = '确定删除'
+  let cancelText = '取消'
+
+  messageBox(text, title, confirmText, cancelText, success, error)
+}
 let _size = ref('50%')
 onMounted(() => {
   if (less768()) {
     // _size.value = '90%'
   }
+  formData.value = JSON.parse(JSON.stringify(props.entryData))
 })
 </script>
 <template>
@@ -108,7 +126,8 @@ onMounted(() => {
         </el-form-item>
       </el-form>
       <div class="option">
-        <div class="youthol-btn" @click="submitActivityEntry(ruleFormRef)">添加记录</div>
+        <div class="youthol-btn check-btn" @click="submitActivityEntry(ruleFormRef)">修改记录</div>
+        <div class="youthol-btn delete-btn" @click="handleDelete">删除记录</div>
       </div>
     </template>
   </el-drawer>
@@ -120,19 +139,44 @@ onMounted(() => {
   justify-content: center;
 }
 .youthol-btn {
+  font-family: 'SmileySans';
+
   font-size: 20px;
   margin: 10px 20px;
   padding: 10px 20px;
   border-radius: 10px;
-  font-weight: 700;
+  font-weight: 500;
+}
+.check-btn {
   color: #008aff;
   background-color: white;
   border: 3px #008aff solid;
 }
+.warn-btn {
+  color: #f68512;
+  background-color: white;
+  border: 3px #f68512 solid;
+}
+.delete-btn {
+  color: rgb(255, 53, 53);
+  background-color: white;
+  border: 3px rgb(255, 53, 53) solid;
+}
 
-.youthol-btn:hover {
+.check-btn:hover {
   color: white;
   background-color: #008aff;
+  border: 3px #008aff solid;
+}
+.delete-btn:hover {
+  color: white;
+  background-color: rgb(255, 53, 53);
+  border: 3px rgb(255, 53, 53) solid;
+}
+.warn-btn:hover {
+  color: white;
+  background-color: #f68512;
+  border: 3px #f68512 solid;
 }
 .avatar-uploader .avatar {
   width: 178px;
