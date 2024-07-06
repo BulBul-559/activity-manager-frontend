@@ -1,6 +1,6 @@
 const actionRoutes = [
   {
-    path: '/execute-activity',
+    path: '/execute-activity/:activityId',
     name: 'execute-activity',
     components: {
       MainComponment: () => import('actionPage/ExecuteActivity.vue')

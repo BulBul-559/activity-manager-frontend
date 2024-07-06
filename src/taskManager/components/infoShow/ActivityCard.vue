@@ -6,7 +6,7 @@ import { errorAlert, successAlert, messageBox } from 'utils/message'
 
 /**
  *
- * @deprecated 单个活动的展示卡片，提供查看和删除活动的入口
+ * @description 单个活动的展示卡片，提供查看和删除活动的入口
  * @todo 应该把按钮的点击事件放到父组件中，这样可以减少组件的耦合度
  */
 

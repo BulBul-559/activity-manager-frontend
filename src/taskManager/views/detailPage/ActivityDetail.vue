@@ -9,9 +9,6 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
-const route = useRoute()
-const router = useRouter()
-const userStore = useUserStore()
 
 /**
  *
@@ -20,6 +17,9 @@ const userStore = useUserStore()
  * @description 展示活动的详细信息
  * @todo 未完成
  */
+const route = useRoute()
+const router = useRouter()
+const userStore = useUserStore()
 
 let activityId = ref()
 
