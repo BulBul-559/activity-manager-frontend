@@ -14,12 +14,15 @@ const userStore = useUserStore()
 
 const props = defineProps(['drawer', 'activityId'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])
+const options = ref([])
+const loading = ref(false)
 const ruleFormRef = ref()
 let formData = reactive({
   photo_name: '',
   description: '',
   uploader: '',
-  activity: ''
+  activity: '',
+  machine: ''
 })
 
 // 关闭添加弹窗
@@ -27,9 +30,20 @@ let handleClose = (done) => {
   emit('displayDrawer', false)
   done()
 }
-
+// 验证文件大小
+const updateMachineIdInPinia = (rule, value, callback) => {
+  console.log(value)
+  userStore.$patch({
+    current_machine: value
+  })
+  callback()
+}
 const rules = reactive({
-  photo_name: [{ required: true, message: '请输入照片编号', trigger: 'blur' }]
+  photo_name: [{ required: true, message: '请输入照片编号', trigger: 'blur' }],
+  machine: [
+    { required: true, message: '请选择相机型号', trigger: 'blur' },
+    { validator: updateMachineIdInPinia, message: '', trigger: 'change' }
+  ]
 })
 
 const postEntryInfo = () => {
@@ -45,10 +59,37 @@ const postEntryInfo = () => {
       formData.photo_name = ''
       formData.uploader = ''
       formData.activity = ''
+      formData.description = ''
     })
     .catch((err) => {
       console.log(err)
     })
+}
+
+const remoteMethod = (query) => {
+  if (query) {
+    loading.value = true
+    http
+      .get('/machine/')
+      .then((res) => {
+        let data = res.data
+        console.log(data)
+        options.value = data
+          .map((item) => ({
+            id: item.id,
+            label: `${item.name} - ${item.alias} - ${item.model}`
+          }))
+          .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
+
+        loading.value = false
+      })
+      .catch(function (error) {
+        console.log(error)
+        loading.value = false
+      })
+  } else {
+    options.value = []
+  }
 }
 
 const submitActivityEntry = async (formEl) => {
@@ -88,6 +129,25 @@ onMounted(() => {
         label-position="right"
         label-width="100px"
       >
+        <el-form-item class="form-item" label="当前相机" prop="machine">
+          <el-select
+            v-model="formData.machine"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="输入关键字搜索"
+            remote-show-suffix
+            :remote-method="remoteMethod"
+            :loading="loading"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.id"
+              :label="item.label"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item class="form-item" label="照片编号" prop="photo_name">
           <el-input
             class="input-box"

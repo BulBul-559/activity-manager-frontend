@@ -228,7 +228,7 @@ onMounted(() => {
   .entry-img {
     overflow: hidden;
     height: 100%;
-    width: 280px;
+    width: 290px;
     border-radius: 20px;
   }
   .entry-card:hover .entry-profile {

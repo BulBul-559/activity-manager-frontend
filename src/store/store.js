@@ -13,6 +13,9 @@ export const useUserStore = defineStore('userStore', () => {
   const department = ref()
   const identity = ref()
   const position = ref()
+
+  const current_machine = ref()
+
   const isInitialized = ref(false) // 添加初始化标志
   const isInitializing = ref(false) // 添加临时锁定标志
   let initPromise = null // 添加用于追踪初始化状态的 Promise
@@ -64,6 +67,7 @@ export const useUserStore = defineStore('userStore', () => {
     department,
     identity,
     position,
+    current_machine,
     initializeUser,
     isInitialized,
     isInitializing

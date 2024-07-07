@@ -17,7 +17,8 @@ const emit = defineEmits(['displayDrawer', 'getInfo'])
 const ruleFormRef = ref()
 let formData = ref({
   photo_name: '',
-  description: ''
+  description: '',
+  machine: ''
 })
 
 // 关闭添加弹窗
@@ -27,7 +28,8 @@ let handleClose = (done) => {
 }
 
 const rules = reactive({
-  photo_name: [{ required: true, message: '请输入照片编号', trigger: 'blur' }]
+  photo_name: [{ required: true, message: '请输入照片编号', trigger: 'blur' }],
+  machine: [{ required: true, message: '请选择相机', trigger: 'blur' }]
 })
 
 const postEntryInfo = () => {
@@ -106,6 +108,25 @@ onMounted(() => {
         label-position="right"
         label-width="100px"
       >
+        <el-form-item class="form-item" label="当前相机" prop="machine">
+          <el-select
+            v-model="formData.machine"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="输入关键字搜索"
+            remote-show-suffix
+            :remote-method="remoteMethod"
+            :loading="loading"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.id"
+              :label="item.label"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item class="form-item" label="照片编号" prop="photo_name">
           <el-input
             class="input-box"

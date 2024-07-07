@@ -27,6 +27,8 @@ let activityData = ref([])
 let entryData = ref([])
 let singleEntryData = ref([])
 
+let machineId = ref(0)
+
 let addNewActivityEntryDrawer = ref(false)
 
 function displayAddNewActivityEntry(val) {
@@ -56,11 +58,26 @@ function getActivityEntry() {
     .get('/entry/?activity_id=' + activityId.value)
     .then((res) => {
       entryData.value = res.data
-      console.log(res.data)
     })
     .catch(function (error) {
       console.log(error)
     })
+}
+
+function getRefresh() {
+  http
+    .get('/entry/scan/?machine_id=' + userStore.current_machine)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
+}
+
+function refreshOnce() {
+  console.log(userStore.current_machine)
+  getRefresh()
 }
 
 function changeRefreshMode(mode) {
@@ -83,7 +100,7 @@ onMounted(async () => {
       <div class="divider"></div>
       <div class="options">
         <div class="youthol-btn check-btn" @click="displayAddNewActivityEntry(true)">添加记录</div>
-        <div class="youthol-btn check-btn">手动刷新</div>
+        <div class="youthol-btn check-btn" @click="refreshOnce">手动刷新</div>
         <div class="youthol-btn delete-btn" v-if="refresh" @click="changeRefreshMode(false)">
           停止刷新
         </div>
