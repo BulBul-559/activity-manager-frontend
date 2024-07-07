@@ -35,6 +35,7 @@ let addNewActivityEntryDrawer = ref(false)
 const options = ref([])
 const loading = ref(false)
 const ruleFormRef = ref()
+let current_machine_name = ref()
 let choiceMachineDrawer = ref(false)
 let formData = reactive({
   machine: ''
@@ -43,6 +44,7 @@ const updateMachineIdInPinia = (rule, value, callback) => {
   userStore.$patch({
     current_machine: value
   })
+  current_machine_name.value = options.value.find((item) => item.id === value).name
   callback()
 }
 const rules = reactive({
@@ -124,7 +126,8 @@ const remoteMethod = (query) => {
         options.value = data
           .map((item) => ({
             id: item.id,
-            label: `${item.name} - ${item.alias} - ${item.model}`
+            label: `${item.name} - ${item.alias} - ${item.model}`,
+            name: `${item.name}`
           }))
           .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
 
@@ -174,7 +177,13 @@ onUnmounted(() => {
 <template>
   <div class="main-layout">
     <div class="activity-info">
-      <div class="activity-title">{{ activityData.name }}</div>
+      <div class="activity-header">
+        <div class="activity-title">{{ activityData.name }}</div>
+        <div class="current-machine" v-if="current_machine_name != void 0">
+          当前设备: <span class="choice">{{ current_machine_name }}</span>
+        </div>
+        <div class="current-machine" v-else><span class="none">暂未选择设备</span></div>
+      </div>
       <div class="divider"></div>
       <div class="options">
         <div class="youthol-btn check-btn" @click="displayChoiceMachineDrawer(true)">选择相机</div>
@@ -263,6 +272,29 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.activity-header {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+}
+.current-machine {
+  font-size: 20px;
+  margin: 0 0 0 10px;
+}
+.current-machine > .choice {
+  padding: 0 10px;
+  color: white;
+  background-color: #008aff;
+  border-radius: 1200px;
+}
+.current-machine > .none {
+  padding: 0 10px;
+  color: white;
+  background-color: rgb(231, 10, 10);
+  border-radius: 1200px;
+}
 .form {
   width: 100%;
 }
@@ -273,13 +305,12 @@ onUnmounted(() => {
   flex-direction: column;
 }
 .divider {
-  width: 50%;
+  width: 100%;
   border: 3px solid black;
   margin: 8px 0;
 }
 .youthol-btn {
   font-family: 'SmileySans';
-
   font-size: 20px;
   margin: 10px 20px;
   padding: 10px 20px;

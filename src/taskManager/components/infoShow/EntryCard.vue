@@ -1,7 +1,7 @@
 <script setup>
 import { http } from 'utils/http'
 import { onMounted, ref } from 'vue'
-import { errorAlert, successAlert, messageBox } from 'utils/message'
+import { ElMessageBox } from 'element-plus'
 
 /**
  *
@@ -12,30 +12,27 @@ const props = defineProps(['entryInfo'])
 const emit = defineEmits(['getInfo', 'displayDrawer'])
 let data = ref()
 
-const handleDelete = () => {
-  const success = () => {
-    http
-      .delete('/activity/' + props.entryInfo.id + '/')
-      .then(() => {
-        successAlert('删除记录成功')
-        emit('getInfo')
-      })
-      .catch((err) => {
-        console.log(err)
-        errorAlert('删除记录失败')
-      })
-  }
-  const error = () => {
-    errorAlert('取消操作')
-  }
+async function getEntryKey() {
+  console.log(props.entryInfo)
+  let key_content = ''
+  await http
+    .get('/entry/key/?entry=' + props.entryInfo.id)
+    .then((res) => {
+      key_content = res.data.key
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
 
-  let title = '删除记录'
-  let text = '确定要删除 ' + props.entryInfo.photo_name + ' 吗？'
-  let confirmText = '确定删除'
-  let cancelText = '取消'
-
-  messageBox(text, title, confirmText, cancelText, success, error)
+  ElMessageBox.alert(
+    `<div style="margin:30px; display: flex;justify-content: center;align-items: center;flex-direction: column;font-size: 40px; font-family: 'SmileySans';color: #008aff;">${key_content}</div>`,
+    'Key',
+    {
+      dangerouslyUseHTMLString: true
+    }
+  )
 }
+
 function formatDate(dateString) {
   // Parse the date string
   const date = new Date(dateString)
@@ -81,7 +78,7 @@ onMounted(() => {
       </div>
       <div class="entry-option">
         <div class="youthol-btn check-btn" @click="displyModifyDrawer">修改</div>
-        <div class="youthol-btn warn-btn" @click="handleDelete">Key</div>
+        <div class="youthol-btn warn-btn" @click="getEntryKey">Key</div>
       </div>
     </div>
   </div>
