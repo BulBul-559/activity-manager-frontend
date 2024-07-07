@@ -14,6 +14,8 @@ const userStore = useUserStore()
 
 const props = defineProps(['drawer', 'activityId', 'entryData'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])
+const options = ref([])
+const loading = ref(false)
 const ruleFormRef = ref()
 let formData = ref({
   photo_name: '',
@@ -46,6 +48,31 @@ const postEntryInfo = () => {
     })
 }
 
+const remoteMethod = (query) => {
+  if (query) {
+    loading.value = true
+    http
+      .get('/machine/')
+      .then((res) => {
+        let data = res.data
+        console.log(data)
+        options.value = data
+          .map((item) => ({
+            id: item.id,
+            label: `${item.name} - ${item.alias} - ${item.model}`
+          }))
+          .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
+
+        loading.value = false
+      })
+      .catch(function (error) {
+        console.log(error)
+        loading.value = false
+      })
+  } else {
+    options.value = []
+  }
+}
 const submitActivityEntry = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
