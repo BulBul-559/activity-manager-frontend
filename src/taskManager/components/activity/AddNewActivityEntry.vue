@@ -30,7 +30,7 @@ let handleClose = (done) => {
   emit('displayDrawer', false)
   done()
 }
-// 验证文件大小
+
 const updateMachineIdInPinia = (rule, value, callback) => {
   console.log(value)
   userStore.$patch({
@@ -109,6 +109,7 @@ onMounted(() => {
   if (less768()) {
     // _size.value = '90%'
   }
+  formData.machine = userStore.current_machine
 })
 </script>
 <template>

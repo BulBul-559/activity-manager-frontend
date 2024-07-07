@@ -90,7 +90,12 @@ onMounted(() => {
 <style scoped>
 .entry-img {
   object-fit: cover; /* 确保图片覆盖整个容器且不失真 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+
 .entry-profile {
   width: 100%;
   height: 100%;
@@ -100,12 +105,10 @@ onMounted(() => {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-wrap: wrap;
-  /* flex-direction: column; */
 }
 .youthol-btn {
   font-size: 20px;
-  margin: 10px 20px;
+  margin: 10px 10px;
   padding: 10px 20px;
   border-radius: 10px;
   font-weight: 500;
@@ -196,14 +199,15 @@ onMounted(() => {
 @media only screen and (min-width: 768px) {
   .entry-card {
     width: 520px;
-    height: 140px;
+    height: 120px;
     /* justify-content: space-between; */
   }
   .entry-option {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: center;
     align-items: center;
+    width: 220px;
   }
   .entry-info {
     justify-content: flex-start;
@@ -228,8 +232,12 @@ onMounted(() => {
   .entry-img {
     overflow: hidden;
     height: 100%;
-    width: 290px;
+    width: 220px;
     border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   .entry-card:hover .entry-profile {
     transform: scale(1.1, 1.1);
@@ -244,6 +252,9 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     position: relative;
+  }
+  .entry-list {
+    flex-wrap: wrap;
   }
   .entry-option {
     display: flex;
@@ -269,6 +280,7 @@ onMounted(() => {
     z-index: 2;
     /* 根据需要调整高度，或使用 padding/margin 来调整位置 */
   }
+
   .entry-img {
     width: 100%;
     height: 100%;
