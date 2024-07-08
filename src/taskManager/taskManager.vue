@@ -36,7 +36,7 @@ onMounted(async () => {
     })
     .catch((re) => {
       console.log(re)
-      window.location.href = '/youthol/'
+      window.location.href = '/swt/'
     })
 })
 </script>

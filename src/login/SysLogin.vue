@@ -35,7 +35,7 @@ function switchBox(res) {
 onMounted(() => {
   verifySignIn
     .then(() => {
-      window.location.href = '/youthol/'
+      window.location.href = '/swt/'
     })
     .catch(() => {})
 })

@@ -6,15 +6,15 @@ import YoutholTitle from './components/YoutholTitle.vue'
 import { http } from './utils/http.js' //配置了基本的设置
 
 function toLogin() {
-  window.location.href = '/youthol/login/'
+  window.location.href = '/swt/login/'
 }
 
 function toOA() {
-  window.location.href = '/youthol/OA/'
+  window.location.href = '/swt/OA/'
 }
 
 function toManager() {
-  window.location.href = '/youthol/taskManager/'
+  window.location.href = '/swt/taskManager/'
 }
 
 let store = useUserStore()

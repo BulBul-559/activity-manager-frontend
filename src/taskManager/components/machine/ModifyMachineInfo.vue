@@ -21,6 +21,7 @@ let formData = ref({
   name: '',
   type: '',
   model: '',
+  alias: '',
   purchase_date: '',
   description: '',
   profile: ''
@@ -83,6 +84,7 @@ const rules = reactive({
   name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
   type: [{ required: true, message: '请选择设备类型', trigger: 'blur' }],
   model: [{ required: true, message: '请输入设备型号', trigger: 'blur' }],
+  alias: [{ required: true, message: '请输入设备别名', trigger: 'blur' }],
   purchase_date: [{ required: true, message: '请选择购买时间', trigger: 'blur' }],
   description: [{ required: true, message: '请输入设备描述', trigger: 'blur' }],
   profile: [
@@ -185,6 +187,7 @@ let _size = ref('50%')
 onMounted(() => {
   formData.value = JSON.parse(JSON.stringify(props.machineInfo))
   imageUrl.value = props.machineInfo.profile_url
+  console.log(formData.value)
   if (less768()) {
     _size.value = '90%'
   }
@@ -231,6 +234,15 @@ onMounted(() => {
           <el-input
             class="input-box"
             v-model="formData.model"
+            type="text"
+            placeholder="请输入设备型号"
+            autocomplete="off"
+          />
+        </el-form-item>
+        <el-form-item class="form-item" label="设备别名" prop="alias">
+          <el-input
+            class="input-box"
+            v-model="formData.alias"
             type="text"
             placeholder="请输入设备型号"
             autocomplete="off"

@@ -2,6 +2,7 @@
 import { less768 } from 'utils/screen'
 import { reactive, onMounted, ref } from 'vue'
 import { errorAlert, successAlert } from 'utils/message'
+import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { http } from 'utils/http' //配置了基本的设置
 
@@ -20,6 +21,7 @@ let formData = reactive({
   name: '',
   type: '',
   model: '',
+  alias: '',
   purchase_date: '',
   description: '',
   profile: ''
@@ -76,6 +78,7 @@ const verifyProfileType = (rule, value, callback) => {
 const rules = reactive({
   name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
   type: [{ required: true, message: '请选择设备类型', trigger: 'blur' }],
+  alias: [{ required: true, message: '请输入设备别名', trigger: 'blur' }],
   model: [{ required: true, message: '请输入设备型号', trigger: 'blur' }],
   purchase_date: [{ required: true, message: '请选择购买时间', trigger: 'blur' }],
   description: [{ required: true, message: '请输入设备描述', trigger: 'blur' }],
@@ -95,6 +98,7 @@ const postMachineInfo = () => {
   form.append('name', formData.name)
   form.append('type', formData.type)
   form.append('model', formData.model)
+  form.append('alias', formData.alias)
   form.append('purchase_date', formData.purchase_date)
   form.append('description', formData.description)
   form.append('profile', formData.profile) // 确保 profile 是 File 对象
@@ -109,6 +113,7 @@ const postMachineInfo = () => {
       formData.name = ''
       formData.type = ''
       formData.model = ''
+      formData.alias = ''
       formData.purchase_date = ''
       formData.description = ''
       formData.profile = ''
@@ -123,6 +128,7 @@ const submitMachine = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
+      ElMessage('正在提交，请稍后')
       postMachineInfo()
     } else {
       errorAlert('信息填写错误或不完整，请完善信息')
@@ -180,6 +186,15 @@ onMounted(() => {
           <el-input
             class="input-box"
             v-model="formData.model"
+            type="text"
+            placeholder="请输入设备型号"
+            autocomplete="off"
+          />
+        </el-form-item>
+        <el-form-item class="form-item" label="设备别名" prop="alias">
+          <el-input
+            class="input-box"
+            v-model="formData.alias"
             type="text"
             placeholder="请输入设备型号"
             autocomplete="off"

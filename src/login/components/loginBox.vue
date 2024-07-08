@@ -57,7 +57,7 @@ function signIn() {
         //存储 token
         localStorage.setItem('YoutholAccessToken', token)
         //跳转到首页
-        window.location.href = '/youthol/'
+        window.location.href = '/swt/'
       } else if (data.sign_state == '账号或密码错误') {
         errorAlert('账号或密码错误')
       } else {

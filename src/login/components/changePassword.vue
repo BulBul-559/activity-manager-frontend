@@ -55,7 +55,7 @@ function postChangePwd() {
         //跳转到首页
         let token = data.access_token
         localStorage.setItem('YoutholAccessToken', token)
-        window.location.href = '/youthol/'
+        window.location.href = '/swt/'
       }
     })
     .catch(function (error) {
