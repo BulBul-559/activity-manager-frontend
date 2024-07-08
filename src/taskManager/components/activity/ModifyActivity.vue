@@ -10,18 +10,19 @@ import { http } from 'utils/http' //配置了基本的设置
  * @description 添加新活动的抽屉组件
  */
 
-defineProps(['drawer'])
+const props = defineProps(['drawer', 'activityData'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])
 const options = ref([])
 const loading = ref(false)
 const ruleFormRef = ref()
-let formData = reactive({
+let formData = ref({
   name: '',
   organizer_id: '',
   member_ids: '',
   start_time: '',
   end_time: '',
-  description: ''
+  description: '',
+  organizer: ''
 })
 
 // 关闭添加弹窗
@@ -39,20 +40,63 @@ const rules = reactive({
   member_ids: [{ required: true, message: '请选择参与成员', trigger: 'blur' }]
 })
 
-const postActivityInfo = () => {
+const postMachineInfo = () => {
+  // 初始化一个空对象用于存储发生变化的数据
+  let comparisonData = { ...formData.value }
+  // 从复制的数据中删除 machine_id 和 member_ids
+  delete comparisonData.machine_id
+  delete comparisonData.machine
+  delete comparisonData.member_ids
+  delete comparisonData.member
+  // 初始化一个空对象用于存储发生变化的数据
+  let form = {}
+  // 遍历 comparisonData 中的每个属性
+  for (const key in comparisonData) {
+    if (
+      Object.prototype.hasOwnProperty.call(comparisonData, key) &&
+      comparisonData[key] !== props.activityData[key]
+    ) {
+      // 如果值不同，将这个属性及其值加入到 form 对象中
+      form[key] = comparisonData[key]
+    }
+  }
+  // 特殊处理 machine_id 和 member_ids
+  // 例如，如果需要，可以在这里添加逻辑来处理这两个字段
+  if (formData.value.organizer_id !== props.activityData.organizer.id) {
+    form.organizer_id = formData.value.organizer_id
+  }
+  let flag = 0
+  if (props.activityData.member.length != formData.value.member_ids.length) {
+    form.member_ids = formData.value.member_ids
+  } else {
+    form.member_ids = formData.value.member_ids
+    props.activityData.member.forEach((member) => {
+      // Your logic here, for example:
+      formData.value.member_ids.forEach((id) => {
+        if (member.id == id) {
+          flag = 1
+        }
+      })
+      if (flag == 0) {
+        form.member_ids = formData.value.member_ids
+      }
+      flag = 0
+    })
+  }
+
   http
-    .post('/activity/', formData)
+    .patch('/activity/' + props.activityData.id + '/', form)
     .then((res) => {
       console.log(res.data)
       successAlert('添加成功')
       emit('getInfo')
       emit('displayDrawer', false)
-      formData.name = ''
-      formData.organizer_id = ''
-      formData.member_ids = ''
-      formData.start_time = ''
-      formData.end_time = ''
-      formData.description = ''
+      formData.value.name = ''
+      formData.value.organizer_id = ''
+      formData.value.member_ids = ''
+      formData.value.start_time = ''
+      formData.value.end_time = ''
+      formData.value.description = ''
     })
     .catch((err) => {
       console.log(err)
@@ -63,7 +107,7 @@ const submitActivity = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      postActivityInfo()
+      postMachineInfo()
     } else {
       errorAlert('信息填写错误或不完整，请完善信息')
       console.log('error submit!', fields)
@@ -99,6 +143,11 @@ const remoteMethod = (query) => {
 
 let _size = ref('50%')
 onMounted(() => {
+  formData.value = JSON.parse(JSON.stringify(props.activityData))
+  formData.value.organizer_id = formData.value.organizer.id
+
+  formData.value.member_ids = formData.value.member.map((item) => item.id)
+  console.log(formData.value)
   if (less768()) {
     _size.value = '90%'
   }
@@ -108,7 +157,7 @@ onMounted(() => {
   <el-drawer
     :size="_size"
     :modelValue="drawer"
-    title="添加新活动"
+    title="修改活动信息"
     direction="rtl"
     :before-close="handleClose"
   >
@@ -199,7 +248,7 @@ onMounted(() => {
         </el-form-item>
       </el-form>
       <div class="option">
-        <div class="youthol-btn" @click="submitActivity(ruleFormRef)">添加活动</div>
+        <div class="youthol-btn" @click="submitActivity(ruleFormRef)">修改</div>
       </div>
     </template>
   </el-drawer>

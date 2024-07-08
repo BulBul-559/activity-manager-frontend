@@ -40,7 +40,6 @@ onMounted(async () => {
   await userStore.initializeUser()
   getActivityData()
 })
-
 </script>
 <template>
   <div class="main-layout">

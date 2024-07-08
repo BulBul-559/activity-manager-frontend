@@ -1,13 +1,14 @@
 <script setup>
 import GanttChart from 'manager/components/infoShow/GanttChart.vue'
 import ModifyMachineInfo from 'manager/components/machine/ModifyMachineInfo.vue'
+import ModifyActivity from 'manager/components/activity/ModifyActivity.vue'
 import { http } from 'utils/http'
 import { less768 } from 'utils/screen'
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { useUserStore } from 'store/store.js'
-import { errorAlert, successAlert } from 'utils/message'
+import { errorAlert, successAlert, messageBox } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 
 /**
@@ -22,23 +23,48 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
-let activityInfo = ref({})
+let activityData = ref({})
 let activityId = ref()
 let activityLoadingFlag = ref(false)
 
-function getActivityInfo() {
+function getActivityData() {
   http
     .get('/activity/' + activityId.value + '/')
     .then((res) => {
-      console.log(res.data)
-      activityInfo.value = res.data
+      activityData.value = res.data
     })
     .then(() => {
       activityLoadingFlag.value = true
     })
     .catch(function (error) {
       console.log(error)
+      router.go(-1)
     })
+}
+
+const handleDelete = () => {
+  const success = () => {
+    http
+      .delete('/activity/' + activityId.value + '/')
+      .then(() => {
+        successAlert('删除活动成功')
+        getActivityData()
+      })
+      .catch((err) => {
+        errorAlert('删除活动失败')
+        console.log(err)
+      })
+  }
+  const error = () => {
+    errorAlert('取消操作')
+  }
+
+  let title = '删除活动'
+  let text = '确定要删除 ' + activityData.value.name + ' 吗？'
+  let confirmText = '确定删除'
+  let cancelText = '取消'
+
+  messageBox(text, title, confirmText, cancelText, success, error)
 }
 function formatDate(dateString) {
   // Parse the date string
@@ -51,7 +77,27 @@ function formatDate(dateString) {
   return `${year}年${month}月${day}日`
 }
 
+let modifyActivityDrawer = ref(false)
+
+// 弹窗控制
+function displayModifyActivity(val) {
+  modifyActivityDrawer.value = val
+}
+
+let detailMode = ref(0)
+const goToPath = (path, mode) => {
+  const analysisPath = `${baseURL}/${path}`
+  // 检查是否已经在 analysis 路由上
+  if (!route.path.endsWith(`/${path}`)) {
+    router.push(analysisPath)
+  } else {
+    console.warn(`已经在 ${path} 路由上`)
+  }
+  detailMode.value = mode
+}
+
 let mobileFlag = ref(false)
+let baseURL = ''
 onMounted(async () => {
   await userStore.initializeUser()
   if (less768()) {
@@ -59,7 +105,19 @@ onMounted(async () => {
   }
   let linkParams = route.params
   activityId.value = linkParams.activityId
-  getActivityInfo()
+
+  baseURL = route.path.split('/').slice(0, 3).join('/')
+  if (baseURL.endsWith('/')) {
+    baseURL = baseURL.slice(0, -1)
+  }
+  // 判断是 entry 还是 analysis 并设置 mode
+  if (route.path.endsWith('/analysis')) {
+    detailMode.value = 1
+  } else {
+    detailMode.value = 0 // 如果都不是，可以设置一个默认值
+  }
+
+  getActivityData()
 })
 </script>
 <template>
@@ -67,23 +125,23 @@ onMounted(async () => {
     <div class="activity-info" v-if="activityLoadingFlag">
       <div class="activity-detail">
         <div class="basic-info">
-          <div class="activity-title">{{ activityInfo.name }}</div>
+          <div class="activity-title">{{ activityData.name }}</div>
           <div class="divider"></div>
           <div class="activity-time">
-            {{ formatDate(activityInfo.start_time) }} - {{ formatDate(activityInfo.end_time) }}
+            {{ formatDate(activityData.start_time) }} - {{ formatDate(activityData.end_time) }}
           </div>
           <div class="activity-description">
-            {{ activityInfo.description }}
+            {{ activityData.description }}
           </div>
         </div>
         <div class="people-info">
           <div class="people-description" v-if="!mobileFlag">负责人</div>
-          <div class="activity-organizer people-item">{{ activityInfo.organizer.name }}</div>
+          <div class="activity-organizer people-item">{{ activityData.organizer.name }}</div>
           <div class="people-description" v-if="!mobileFlag">成员</div>
           <div class="activity-member">
             <div
               class="single-member people-item"
-              v-for="member in activityInfo.member"
+              v-for="member in activityData.member"
               :key="member"
             >
               {{ member.name }}
@@ -93,20 +151,44 @@ onMounted(async () => {
       </div>
       <div class="activity-options">
         <div class="option">
-          <div class="youthol-btn check-btn">统计</div>
-          <div class="youthol-btn check-btn">修改</div>
+          <div
+            class="youthol-btn check-btn"
+            v-if="detailMode == 0"
+            @click="goToPath('analysis', 1)"
+          >
+            统计
+          </div>
+          <div class="youthol-btn check-btn" v-if="detailMode == 1" @click="goToPath('entry', 0)">
+            记录
+          </div>
+          <div class="youthol-btn check-btn" @click="displayModifyActivity(true)">修改</div>
         </div>
         <div class="option">
           <router-link :to="'/execute-activity/' + activityId">
             <div class="youthol-btn warn-btn">进入</div>
           </router-link>
-          <div class="youthol-btn delete-btn">删除</div>
+          <div
+            class="youthol-btn delete-btn"
+            @click="handleDelete"
+            v-if="userStore.identity == '管理员'"
+          >
+            删除
+          </div>
         </div>
       </div>
     </div>
     <el-divider> </el-divider>
-    <div class="activity-entry-list"></div>
+    <div class="activity-entry-list">
+      <router-view></router-view>
+    </div>
   </div>
+  <ModifyActivity
+    v-if="userStore.identity == '管理员' && modifyActivityDrawer"
+    :drawer="modifyActivityDrawer"
+    :activity-data="activityData"
+    @display-drawer="displayModifyActivity"
+    @get-info="getActivityData"
+  ></ModifyActivity>
 </template>
 
 <style scoped>
@@ -116,7 +198,9 @@ onMounted(async () => {
   border-radius: 10px;
   font-size: 18px;
   border: solid 1px rgba(128, 128, 128, 0.329);
-  width: 90%;
+  width: 240px;
+  word-wrap: break-word;
+  word-break: normal;
 }
 .people-description {
   margin: 5px;
