@@ -29,15 +29,9 @@ onMounted(async () => {
     _size.value = '90%'
   }
 
-  await userStore
-    .initializeUser()
-    .then(() => {
-      // checkDuty()
-    })
-    .catch((re) => {
-      console.log(re)
-      window.location.href = '/swt/'
-    })
+  await userStore.initializeUser().catch(() => {
+    window.location.href = '/swt/'
+  })
 })
 </script>
 <template>

@@ -10,11 +10,14 @@ import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 
 const userStore = useUserStore()
 
+let myInfo = ref({})
+
 function getMyInfo() {
   http
     .get('/member/' + userStore.user_id + '/')
     .then((res) => {
       console.log(res.data)
+      myInfo.value = res.data
     })
     .catch(function (error) {
       console.log(error)
@@ -31,13 +34,21 @@ onMounted(async () => {
   <div>self manage</div>
 
   <div class="main-layout">
-
-    <div class="my-info">
-      
+    <div class="my-detail">
+      <div class="my-info">
+        <div class="name">{{ myInfo.name }}</div>
+        <div class="sdut_id">{{ myInfo.sdut_id }}</div>
+        <div class="college">{{ myInfo.college }}</div>
+        <div class="grade">{{ myInfo.grade }}</div>
+        <div class="department">{{ myInfo.department }}</div>
+        <div class="identity">{{ myInfo.identity }}</div>
+        <div class="position">{{ myInfo.position }}</div>
+      </div>
+      <div class="my-options">
+        
+      </div>
     </div>
-    <div class="my-related">
-
-    </div>
+    <div class="my-related"></div>
   </div>
 </template>
 

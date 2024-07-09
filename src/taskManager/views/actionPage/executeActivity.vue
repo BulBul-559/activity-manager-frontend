@@ -1,15 +1,12 @@
 <script setup>
-import { http } from 'utils/http'
-import { less768 } from 'utils/screen'
-import { onMounted, ref, reactive, onUnmounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { useRouter } from 'vue-router'
-import { useUserStore } from 'store/store.js'
-import { errorAlert, successAlert } from 'utils/message'
-import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 import AddNewActivityEntry from 'manager/components/activity/AddNewActivityEntry.vue'
 import ModifyEntry from 'manager/components/activity/ModifyEntry.vue'
 import EntryCard from 'manager/components/infoShow/EntryCard.vue'
+import { useUserStore } from 'store/store.js'
+import { http } from 'utils/http'
+import { errorAlert, successAlert } from 'utils/message'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 /**
  *
@@ -186,18 +183,41 @@ onUnmounted(() => {
       </div>
       <div class="divider"></div>
       <div class="options">
-        <div class="youthol-btn check-btn" @click="displayChoiceMachineDrawer(true)">选择相机</div>
-        <div class="youthol-btn check-btn" @click="displayAddNewActivityEntry(true)">添加记录</div>
-        <div class="youthol-btn check-btn" @click="refreshOnce">手动刷新</div>
-        <div class="youthol-btn delete-btn" v-if="refresh" @click="changeRefreshMode(false)">
+        <div
+          class="youthol-btn check-btn animate__animated animate__flipInX"
+          @click="displayChoiceMachineDrawer(true)"
+        >
+          选择相机
+        </div>
+        <div
+          class="youthol-btn check-btn animate__animated animate__flipInX"
+          @click="displayAddNewActivityEntry(true)"
+        >
+          添加记录
+        </div>
+        <div class="youthol-btn check-btn animate__animated animate__flipInX" @click="refreshOnce">
+          手动刷新
+        </div>
+        <div
+          class="youthol-btn delete-btn animate__animated animate__flipInX"
+          v-if="refresh"
+          @click="changeRefreshMode(false)"
+        >
           停止刷新
         </div>
-        <div class="youthol-btn check-btn" v-else @click="changeRefreshMode(true)">自动刷新</div>
+        <div
+          class="youthol-btn check-btn animate__animated animate__flipInX"
+          v-else
+          @click="changeRefreshMode(true)"
+        >
+          自动刷新
+        </div>
       </div>
     </div>
     <el-divider></el-divider>
     <div class="entry-list">
       <EntryCard
+        class="animate__animated animate__bounceIn"
         v-for="item in entryData"
         :key="item.id"
         :entry-info="item"

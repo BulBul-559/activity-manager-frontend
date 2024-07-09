@@ -1,6 +1,4 @@
 <script setup>
-import GanttChart from 'manager/components/infoShow/GanttChart.vue'
-import ModifyMachineInfo from 'manager/components/machine/ModifyMachineInfo.vue'
 import ModifyActivity from 'manager/components/activity/ModifyActivity.vue'
 import { http } from 'utils/http'
 import { less768 } from 'utils/screen'
@@ -9,7 +7,6 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert, messageBox } from 'utils/message'
-import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 
 /**
  *
@@ -152,23 +149,32 @@ onMounted(async () => {
       <div class="activity-options">
         <div class="option">
           <div
-            class="youthol-btn check-btn"
+            class="youthol-btn check-btn animate__animated animate__flipInX"
             v-if="detailMode == 0"
             @click="goToPath('analysis', 1)"
           >
             统计
           </div>
-          <div class="youthol-btn check-btn" v-if="detailMode == 1" @click="goToPath('entry', 0)">
+          <div
+            class="youthol-btn check-btn animate__animated animate__flipInX"
+            v-if="detailMode == 1"
+            @click="goToPath('entry', 0)"
+          >
             记录
           </div>
-          <div class="youthol-btn check-btn" @click="displayModifyActivity(true)">修改</div>
+          <div
+            class="youthol-btn check-btn animate__animated animate__flipInX"
+            @click="displayModifyActivity(true)"
+          >
+            修改
+          </div>
         </div>
         <div class="option">
           <router-link :to="'/execute-activity/' + activityId">
-            <div class="youthol-btn warn-btn">进入</div>
+            <div class="youthol-btn warn-btn animate__animated animate__flipInX">进入</div>
           </router-link>
           <div
-            class="youthol-btn delete-btn"
+            class="youthol-btn delete-btn animate__animated animate__flipInX"
             @click="handleDelete"
             v-if="userStore.identity == '管理员'"
           >

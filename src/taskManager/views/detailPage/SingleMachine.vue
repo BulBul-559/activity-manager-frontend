@@ -1,14 +1,13 @@
 <script setup>
 import GanttChart from 'manager/components/infoShow/GanttChart.vue'
 import ModifyMachineInfo from 'manager/components/machine/ModifyMachineInfo.vue'
-import { http } from 'utils/http'
-import { less768 } from 'utils/screen'
-import { onMounted, ref, reactive } from 'vue'
-import { useRoute } from 'vue-router'
-import { useRouter } from 'vue-router'
 import { useUserStore } from 'store/store.js'
+import { dateOptions, endTimeOptions, startTimeOptions } from 'utils/filter.js'
+import { http } from 'utils/http'
 import { errorAlert, successAlert } from 'utils/message'
-import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
+import { less768 } from 'utils/screen'
+import { onMounted, reactive, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 /**
  * 单个设备信息展示
@@ -38,6 +37,7 @@ let submitApply = false
 let flag = ref(false) // 控制是否显示 Gantt Chart 和 Borrow Form
 
 // Gantt Chart 的数据
+let ganttChartRef = ref()
 let ganttChartTitle = ref('相机使用情况')
 let axisData = ref({
   yAxisLabels: '',
@@ -166,12 +166,29 @@ const verifyStartTime = (rule, value, callback) => {
     return
   }
 
+  // if (formData.startTime != '' && formData.endTime != '') {
+  //   console.log(formData.startTime)
+  //   let startLabel = getTimeLabel(formData.startTime, startOptions.value)
+  //   let endLabel = getTimeLabel(formData.endTime, endOptions.value)
+  //   console.log(startLabel)
+  //   console.log(endLabel)
+  // }
+
   endOptions.value = endOptions.value.map((option) => {
     return {
       ...option,
       disabled: option.value < value
     }
   })
+
+  // ganttChartRef.value.addNewGanttItem(
+  //   date,
+  //   startLabel,
+  //   endLabel,
+  //   '当前选择',
+  //   startDetail,
+  //   endDetail
+  // )
   callback()
 }
 
@@ -248,6 +265,7 @@ function daysBetweenToday(time) {
 
 function getTimeLabel(dateString, optionsList) {
   // 创建日期对象
+  console.log(dateString)
   const date = new Date(dateString)
 
   // 提取时间部分，改为使用本地时间的方法
@@ -418,6 +436,7 @@ onMounted(async () => {
 
   <ModifyMachineInfo
     v-if="flag"
+    :ref="ganttChartRef"
     :drawer="displayModifyDrawer"
     :machine-info="machineData"
     @display-drawer="displayModifyMachine"

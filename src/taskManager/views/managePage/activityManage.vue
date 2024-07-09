@@ -49,6 +49,7 @@ onMounted(async () => {
     <el-divider></el-divider>
     <div class="activity-list">
       <ActivityCard
+        class="animate__animated animate__bounceIn"
         v-for="item in activityData"
         :key="item.id"
         :activity-info="item"

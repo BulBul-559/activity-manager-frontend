@@ -65,7 +65,12 @@ onMounted(() => {
     </div>
     <el-divider></el-divider>
     <div class="machine-list">
-      <MachineCard v-for="item in machineInfo" :card_info="item" :key="item"></MachineCard>
+      <MachineCard
+        class="animate__animated animate__bounceIn"
+        v-for="item in machineInfo"
+        :card_info="item"
+        :key="item"
+      ></MachineCard>
     </div>
   </div>
   <AddNewMachine

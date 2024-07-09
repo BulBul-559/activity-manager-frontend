@@ -1,0 +1,41 @@
+.youthol-btn {
+  font-family: 'SmileySans';
+  font-size: 20px;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.check-btn {
+  color: #008aff;
+  background-color: white;
+  border: 3px #008aff solid;
+}
+.warn-btn {
+  color: #f68512;
+  background-color: white;
+  border: 3px #f68512 solid;
+}
+.delete-btn {
+  color: rgb(255, 53, 53);
+  background-color: white;
+  border: 3px rgb(255, 53, 53) solid;
+}
+
+.check-btn:hover {
+  color: white;
+  background-color: #008aff;
+  border: 3px #008aff solid;
+}
+.warn-btn:hover {
+  color: white;
+  background-color: #f68512;
+  border: 3px #f68512 solid;
+}
+
+.delete-btn:hover {
+  color: white;
+  background-color: rgb(255, 53, 53);
+  border: 3px rgb(255, 53, 53) solid;
+}
