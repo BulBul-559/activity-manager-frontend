@@ -8,6 +8,7 @@ import { useUserStore } from 'store/store.js'
 import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 import '@/assets/css/youth-btn.css'
+import MyInfoCollection from 'manager/components/myself/MyInfoCollection.vue'
 
 const userStore = useUserStore()
 
@@ -54,7 +55,9 @@ onMounted(async () => {
       </div>
     </div>
     <el-divider></el-divider>
-    <div class="my-related"></div>
+    <div class="my-related">
+      <MyInfoCollection></MyInfoCollection>
+    </div>
   </div>
 </template>
 
