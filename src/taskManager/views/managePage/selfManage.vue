@@ -9,6 +9,7 @@ import { errorAlert, successAlert } from 'utils/message'
 import { dateOptions, startTimeOptions, endTimeOptions } from 'utils/filter.js'
 import '@/assets/css/youth-btn.css'
 import MyInfoCollection from 'manager/components/myself/MyInfoCollection.vue'
+import ModifyMyInfo from 'manager/components/myself/ModifyMyInfo.vue'
 
 const userStore = useUserStore()
 
@@ -24,6 +25,12 @@ function getMyInfo() {
     .catch(function (error) {
       console.log(error)
     })
+}
+
+let modifyMyInfoDrawer = ref(false)
+
+function displayModifyDrawer(val) {
+  modifyMyInfoDrawer.value = val
 }
 
 onMounted(async () => {
@@ -51,7 +58,7 @@ onMounted(async () => {
         </div>
       </div>
       <div class="options">
-        <div class="youth-btn check-btn">编辑信息</div>
+        <div class="youth-btn check-btn" @click="displayModifyDrawer(true)">编辑信息</div>
       </div>
     </div>
     <el-divider></el-divider>
@@ -59,6 +66,14 @@ onMounted(async () => {
       <MyInfoCollection></MyInfoCollection>
     </div>
   </div>
+  <ModifyMyInfo
+    v-if="userStore.identity == '管理员' && modifyMyInfoDrawer"
+    :drawer="modifyMyInfoDrawer"
+    :infoData="myInfo"
+    @display-drawer="displayModifyDrawer"
+    @get-info="getMyInfo"
+  >
+  </ModifyMyInfo>
 </template>
 
 <style scoped>

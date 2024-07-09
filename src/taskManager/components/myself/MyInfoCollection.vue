@@ -2,6 +2,7 @@
 import BasicBarChart from 'manager/components/infoShow/BasicBarChart.vue'
 import BasicPieChart from 'manager/components/infoShow/BasicPieChart.vue'
 import ActivityCard from 'manager/components/infoShow/ActivityCard.vue'
+import MyMachineBorrowRecord from 'manager/components/myself/MyMachineBorrowRecord.vue'
 import { http } from 'utils/http'
 
 import { ref, onMounted } from 'vue'
@@ -18,6 +19,7 @@ async function getActivityData() {
       console.log(error)
     })
 }
+
 onMounted(() => {
   getActivityData()
   console.log(activityData)
@@ -26,8 +28,8 @@ onMounted(() => {
 <template>
   <div class="exhibit-info">
     <el-radio-group v-model="lookData" size="large">
-      <el-radio-button label="活动" />
-      <el-radio-button label="设备" />
+      <el-radio-button label="活动" value="活动" />
+      <el-radio-button label="设备" value="设备" />
       <!-- <el-radio-button label="列表" /> -->
     </el-radio-group>
     <div v-if="lookData == '活动'" class="activit-list">
@@ -39,8 +41,10 @@ onMounted(() => {
         @get-info="getActivityData"
       ></ActivityCard>
     </div>
+    <div v-if="lookData == '设备'" class="machine-list">
+      <MyMachineBorrowRecord></MyMachineBorrowRecord>
+    </div>
     <!-- <BasicBarChart v-if="lookData == '活动'" :title="''"></BasicBarChart> -->
-    <!-- <BasicPieChart v-if="lookData == '设备'" :title="''"></BasicPieChart> -->
     <!-- <MemberList v-if="lookData == '列表'" :title="''"></MemberList> -->
   </div>
 </template>
@@ -55,6 +59,13 @@ onMounted(() => {
   flex-wrap: wrap;
 }
 .activit-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.machine-list {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
