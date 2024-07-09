@@ -7,7 +7,7 @@ import AddNewMember from 'manager/components/youtholer/AddNewMember.vue'
 
 /**
  * 成员管理主页面
- * 
+ *
  * @description 展示所有的成员，提供成员添加入口以及单个成员的删改入口
  */
 
@@ -25,7 +25,6 @@ let editInfo = reactive({
   identity: '',
   position: ''
 })
-
 
 const filterHandler = (value, row, column) => {
   const property = column['property']

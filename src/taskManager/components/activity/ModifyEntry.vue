@@ -1,16 +1,14 @@
 <script setup>
-import { less768 } from 'utils/screen'
-import { reactive, onMounted, ref } from 'vue'
-import { errorAlert, successAlert, messageBox } from 'utils/message'
-import { http } from 'utils/http' //配置了基本的设置
-import { useUserStore } from 'store/store.js'
+import { http } from 'utils/http'; //配置了基本的设置
+import { errorAlert, messageBox, successAlert } from 'utils/message';
+import { less768 } from 'utils/screen';
+import { onMounted, reactive, ref } from 'vue';
 
 /**
  * 添加新活动
  *
  * @description 添加新活动的抽屉组件
  */
-const userStore = useUserStore()
 
 const props = defineProps(['drawer', 'activityId', 'entryData'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])

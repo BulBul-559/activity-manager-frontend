@@ -1,8 +1,8 @@
 <script setup>
-import { less768 } from 'utils/screen'
-import { reactive, onMounted, ref } from 'vue'
-import { errorAlert, successAlert } from 'utils/message'
-import { http } from 'utils/http' //配置了基本的设置
+import { http } from 'utils/http'; //配置了基本的设置
+import { errorAlert, successAlert } from 'utils/message';
+import { less768 } from 'utils/screen';
+import { onMounted, reactive, ref } from 'vue';
 
 /**
  * 添加新活动
