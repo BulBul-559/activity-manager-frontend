@@ -1,9 +1,8 @@
 <script setup>
 import { less768 } from 'utils/screen'
 import { reactive, onMounted, ref } from 'vue'
-import { errorAlert, successAlert, messageBox } from 'utils/message'
+import { errorAlert, successAlert } from 'utils/message'
 import { http } from 'utils/http' //配置了基本的设置
-import { useUserStore } from 'store/store.js'
 import { departmentOption, identityOption, positionOption } from 'utils/filter.js'
 
 /**
@@ -11,12 +10,9 @@ import { departmentOption, identityOption, positionOption } from 'utils/filter.j
  *
  * @description 添加新活动的抽屉组件
  */
-const userStore = useUserStore()
 
 const props = defineProps(['drawer', 'infoData'])
 const emit = defineEmits(['displayDrawer', 'getInfo'])
-const options = ref([])
-const loading = ref(false)
 const ruleFormRef = ref()
 let formData = ref({
   photo_name: '',
@@ -89,31 +85,6 @@ const postMyInfo = () => {
     })
 }
 
-const remoteMethod = (query) => {
-  if (query) {
-    loading.value = true
-    http
-      .get('/machine/')
-      .then((res) => {
-        let data = res.data
-        console.log(data)
-        options.value = data
-          .map((item) => ({
-            id: item.id,
-            label: `${item.name} - ${item.alias} - ${item.model}`
-          }))
-          .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
-
-        loading.value = false
-      })
-      .catch(function (error) {
-        console.log(error)
-        loading.value = false
-      })
-  } else {
-    options.value = []
-  }
-}
 const submitActivityEntry = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
@@ -125,31 +96,7 @@ const submitActivityEntry = async (formEl) => {
     }
   })
 }
-const handleDelete = () => {
-  const success = () => {
-    http
-      .delete('/entry/' + props.infoData.id + '/')
-      .then(() => {
-        successAlert('删除记录成功')
-        emit('displayDrawer', false)
-        emit('getInfo')
-      })
-      .catch((err) => {
-        console.log(err)
-        errorAlert('删除记录失败')
-      })
-  }
-  const error = () => {
-    errorAlert('取消操作')
-  }
 
-  let title = '删除设备'
-  let text = '确定要删除 ' + props.infoData.photo_name + ' 吗？'
-  let confirmText = '确定删除'
-  let cancelText = '取消'
-
-  messageBox(text, title, confirmText, cancelText, success, error)
-}
 let _size = ref('50%')
 onMounted(() => {
   if (less768()) {
@@ -163,7 +110,7 @@ onMounted(() => {
   <el-drawer
     :size="_size"
     :modelValue="drawer"
-    title="添加新记录"
+    title="修改个人信息"
     direction="rtl"
     :before-close="handleClose"
   >
