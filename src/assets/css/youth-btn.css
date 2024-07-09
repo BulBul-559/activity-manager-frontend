@@ -1,4 +1,4 @@
-.youthol-btn {
+.youth-btn {
   font-family: 'SmileySans';
   font-size: 20px;
   margin: 10px 20px;
@@ -6,7 +6,12 @@
   border-radius: 10px;
   font-weight: 500;
 }
-
+.options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .check-btn {
   color: #008aff;
   background-color: white;
